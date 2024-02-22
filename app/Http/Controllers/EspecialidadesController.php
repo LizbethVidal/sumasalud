@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Especialidades;
+use App\Models\Especialidad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class EspecialidadesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $especialidades = Especialidad::all();
+        return view('modules.especialidades.index', compact('especialidades','request'));
     }
 
     /**
@@ -20,7 +23,7 @@ class EspecialidadesController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.especialidades.create');
     }
 
     /**
@@ -28,13 +31,27 @@ class EspecialidadesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $especialidad = new Especialidad();
+            $especialidad->nombre = $request->nombre;
+            $especialidad->save();
+
+            DB::commit();
+            Alert::success('Especialidad creada correctamente');
+            return redirect()->route('especialidades.index')->with('success', 'Especialidad creada correctamente');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Alert::error('Error al crear la especialidad');
+            return redirect()->route('especialidades.index')->with('error', 'Error al crear la especialidad');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Especialidades $especialidades)
+    public function show(Especialidad $especialidades)
     {
         //
     }
@@ -42,7 +59,7 @@ class EspecialidadesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Especialidades $especialidades)
+    public function edit(Especialidad $especialidades)
     {
         //
     }
@@ -50,7 +67,7 @@ class EspecialidadesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Especialidades $especialidades)
+    public function update(Request $request, Especialidad $especialidades)
     {
         //
     }
@@ -58,7 +75,7 @@ class EspecialidadesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Especialidades $especialidades)
+    public function destroy(Especialidad $especialidades)
     {
         //
     }
