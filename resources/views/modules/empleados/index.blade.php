@@ -6,11 +6,11 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        {{ __('Listado de usuarios') }}
+                        {{ __('Listado de empleados') }}
                     </div>
 
                     <div class="card-body">
-                        <form action="{{route('users.index')}}" method="GET">
+                        <form action="{{route('empleados.index')}}" method="GET">
                             @csrf
                             <div class="row mb-2">
                                 <div class="col-md-2">
@@ -25,7 +25,6 @@
                                     <label for="rol">Rol</label>
                                     <select name="rol" id="rol" class="form-select">
                                         <option value="">Todos</option>
-                                        <option value="paciente" @if($request->rol == 'paciente') selected @endif>Paciente</option>
                                         <option value="medico" @if($request->rol == 'medico') selected @endif>Médico</option>
                                         <option value="administrativo" @if($request->rol == 'administrativo') selected @endif>Administrativo</option>
                                     </select>
@@ -62,7 +61,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($users as $user)
+                                @foreach($empleados as $user)
                                     <tr>
                                         <td>{{$user->id}}</td>
                                         <td>{{$user->name}}</td>
@@ -71,10 +70,10 @@
                                         <td>{{$user->rol}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>
-                                            <a href="{{route('users.show', $user->id)}}" class="btn btn-primary">
+                                            <a href="{{route('empleados.show', $user->id)}}" class="btn btn-primary">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="{{route('users.edit', $user->id)}}" class="btn btn-warning">
+                                            <a href="{{route('empleados.edit', $user->id)}}" class="btn btn-warning">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                             <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
@@ -98,7 +97,7 @@
     <script>
         function delete_user(id) {
             $.ajax({
-                url: '/users/' + id,
+                url: '/empleados/' + id,
                 type: 'DELETE',
                 data: {
                     _token: $('input[name=_token]').val()

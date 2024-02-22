@@ -24,5 +24,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => ['auth']], function () {
     Route::post('users/search_tutor', [App\Http\Controllers\UserController::class, 'search_tutor'])->name('users.search_tutor');
 });
-Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['auth']);
+Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['auth','permisos:admin']);
+Route::resource('pacientes', App\Http\Controllers\PacientesController::class)->middleware(['auth','permisos:admin,medico']);
+
+Route::resource('empleados', App\Http\Controllers\EmpleadosController::class)->middleware(['auth','permisos:admin']);
+
 

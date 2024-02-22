@@ -5,19 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorageUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use RealRashid\SweetAlert\Facades\Alert;
 
-class UserController extends Controller
+
+class PacientesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-
+        $pacientes = User::where('rol','paciente')->get();
+        return view('modules.pacientes.index',compact('pacientes', 'request'));
     }
 
     /**

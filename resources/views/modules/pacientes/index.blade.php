@@ -6,11 +6,11 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        {{ __('Listado de usuarios') }}
+                        {{ __('Listado de pacientes') }}
                     </div>
 
                     <div class="card-body">
-                        <form action="{{route('users.index')}}" method="GET">
+                        <form action="{{route('pacientes.index')}}" method="GET">
                             @csrf
                             <div class="row mb-2">
                                 <div class="col-md-2">
@@ -22,21 +22,12 @@
                                     <input type="text" name="dni" id="dni" class="form-control" value="{{$request->dni}}">
                                 </div>
                                 <div class="col-md-2">
-                                    <label for="rol">Rol</label>
-                                    <select name="rol" id="rol" class="form-select">
-                                        <option value="">Todos</option>
-                                        <option value="paciente" @if($request->rol == 'paciente') selected @endif>Paciente</option>
-                                        <option value="medico" @if($request->rol == 'medico') selected @endif>Médico</option>
-                                        <option value="administrativo" @if($request->rol == 'administrativo') selected @endif>Administrativo</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
                                     <label for="movil">Teléfono</label>
                                     <input type="text" name="movil" id="movil" class="form-control" value="{{$request->movil}}">
                                 </div>
                                 <div class="col-md-2">
                                     <label for="email">Correo</label>
-                                    <input type="text" name="email" id="email" class="form-control" value="{{$request->email}}">
+                                    <input type="email" name="email" id="email" class="form-control" value="{{$request->email}}">
                                 </div>
 
                                 <div class="col d-flex flex-column justify-content-end">
@@ -62,7 +53,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($users as $user)
+                                @foreach($pacientes as $user)
                                     <tr>
                                         <td>{{$user->id}}</td>
                                         <td>{{$user->name}}</td>
@@ -71,10 +62,10 @@
                                         <td>{{$user->rol}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>
-                                            <a href="{{route('users.show', $user->id)}}" class="btn btn-primary">
+                                            <a href="{{route('pacientes.show', $user->id)}}" class="btn btn-primary">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="{{route('users.edit', $user->id)}}" class="btn btn-warning">
+                                            <a href="{{route('pacientes.edit', $user->id)}}" class="btn btn-warning">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                             <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
@@ -98,7 +89,7 @@
     <script>
         function delete_user(id) {
             $.ajax({
-                url: '/users/' + id,
+                url: '/pacientes/' + id,
                 type: 'DELETE',
                 data: {
                     _token: $('input[name=_token]').val()
