@@ -5,8 +5,15 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">
-                        {{ __('Listado de pacientes') }}
+                    <div class="card-header d-flex justify-content-between">
+                        <div>
+                            {{ __('Listado de pacientes') }}
+                        </div>
+                        <div>
+                            <a href="{{route('pacientes.create')}}" class="btn btn-primary">
+                                <i class="bi bi-person-plus-fill"></i> Crear Paciente
+                            </a>
+                        </div>
                     </div>
 
                     <div class="card-body">
@@ -47,7 +54,6 @@
                                     <th>Nombre</th>
                                     <th>DNI</th>
                                     <th>Teléfono</th>
-                                    <th>ROL</th>
                                     <th>Correo</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -59,7 +65,6 @@
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->dni}}</td>
                                         <td>{{$user->movil}}</td>
-                                        <td>{{$user->rol}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>
                                             <a href="{{route('pacientes.show', $user->id)}}" class="btn btn-primary">

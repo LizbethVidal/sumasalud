@@ -45,7 +45,7 @@ class UserController extends Controller
 
         // dd($users->toRawSql());
 
-        $users = $users->get();
+        $users = $users->paginate(2);
 
         return view('modules.users.index', compact('users','request'));
     }
