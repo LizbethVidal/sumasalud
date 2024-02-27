@@ -14,7 +14,7 @@
                     <form action="{{route('especialidades.index')}}" method="GET">
                         @csrf
                         <div class="row mb-2">
-                            <div class="col-md-2">
+                            <div class="col">
                                 <label for="nombre">Nombre</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" value="{{$request->nombre}}">
                             </div>
@@ -44,13 +44,9 @@
                                         <a href="{{route('especialidades.edit', $especialidad->id)}}" class="btn btn-warning">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <form action="{{route('especialidades.destroy', $especialidad->id)}}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
+                                        <button type="submit" class="btn btn-danger" onclick="confirmar_delete({{$especialidad->id}})">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -66,4 +62,43 @@
         </div>
     </div>
 </div>
+<script>
+    function especialidad_eliminar(id) {
+        $.ajax({
+            url: '/especialidades/' + id,
+            type: 'DELETE',
+            data: {
+                _token: $('input[name=_token]').val()
+            },
+            success: function(result) {
+
+            }
+        });
+    }
+
+    function confirmar_delete(id){
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                especialidad_eliminar(id);
+                Swal.fire(
+                    'Eliminada!',
+                    'La especialidad ha sido eliminada.',
+                    'success'
+                ).then(() => {
+                    location.reload();
+                })
+            }
+        })
+    }
+
+</script>
 @endsection

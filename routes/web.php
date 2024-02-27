@@ -29,6 +29,6 @@ Route::resource('pacientes', App\Http\Controllers\PacientesController::class)->m
 
 Route::resource('empleados', App\Http\Controllers\EmpleadosController::class)->middleware(['auth','permisos:admin']);
 
-Route::resource('especialidades', App\Http\Controllers\EspecialidadesController::class)->middleware(['auth','permisos:admin']);
+Route::resource('especialidades', App\Http\Controllers\EspecialidadesController::class)->parameters(['especialidades' => 'especialidad'])->middleware(['auth','permisos:admin']);
 
 
