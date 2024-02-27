@@ -5,8 +5,18 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">
-                        {{ __('Listado de empleados') }}
+                    <div class="card-header d-flex justify-content-between">
+                        <div>
+                            {{ __('Listado de empleados') }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            <a href="{{route('users.create')}}" class="btn btn-success">
+                                <i class="bi bi-plus"></i> Nuevo Empleado
+                            </a>
+                            <a href="{{route('users.create')}}?rol=medico" class="btn btn-outline-dark">
+                                <i class="bi bi-plus"></i> Nuevo Médico
+                            </a>
+                        </div>
                     </div>
 
                     <div class="card-body">

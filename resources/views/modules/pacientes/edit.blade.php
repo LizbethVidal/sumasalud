@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
+@section('styles')
+    <link href="{{ asset('css/modules/users/index.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
-                <h1 class="text-center">Editar Usuario</h1>
+                <h1 class="text-center">Editar paciente</h1>
                 <hr>
             </div>
             <div class="card">
@@ -14,8 +18,8 @@
                         @method('PUT')
                         <div class="row">
                             <div class="col-4">
-                                <div class="mt-2">
-                                    <img id="preview" src="{{ $user->foto ? asset('storage/' . $user->foto) : asset('images/default-profile.png') }}" alt="Foto de Perfil" class="img-thumbnail" style="max-width: 200px;">
+                                <div class="mt-2 profile_img">
+                                    <img id="preview" src="{{ $user->foto ? asset('storage/' . $user->foto) : asset('storage/users/default.png') }}" alt="Foto de Perfil" class="img-thumbnail" style="max-width: 200px;">
                                 </div>
                                 <div class="mt-2">
                                     <input type="file" name="foto" id="foto" class="form-control @if($errors->has('foto')) is-invalid @endif" accept="image/*" onchange="previewFile()">

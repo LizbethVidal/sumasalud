@@ -7,6 +7,8 @@ use App\Http\Requests\StorageUserRequest;
 use App\Http\Requests\UpdatePacienteRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PacientesController extends Controller
@@ -35,7 +37,8 @@ class PacientesController extends Controller
             $pacientes = $pacientes->where('telefono','like','%'.$request->telefono.'%');
         }
 
-        $pacientes = $pacientes->get();
+        $pacientes = $pacientes->paginate(10);
+
         return view('modules.pacientes.index',compact('pacientes', 'request'));
     }
 
@@ -52,16 +55,28 @@ class PacientesController extends Controller
      */
     public function store(StoragePacienteRequest $request)
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->dni = $request->dni;
-        $user->email = $request->email;
-        $user->movil = $request->movil;
-        $user->rol = 'paciente';
-        $user->password = bcrypt($request->password);
-        $user->save();
-        Alert::success('Paciente creado correctamente');
-        return redirect()->route('pacientes.index')->with('success','Paciente creado correctamente');
+        DB::beginTransaction();
+        try {
+            $user = new User();
+            $user->fill($request->validated());
+            $user->rol = 'paciente';
+            $user->password = bcrypt($request->password);
+            $user->save();
+
+            if ($request->hasFile('foto')) {
+                $path = Storage::disk('public')->put("users/$user->id", $request->file('foto'));
+                $user->foto = $path;
+                $user->save();
+            }
+
+            DB::commit();
+            Alert::success('Paciente creado correctamente');
+            return redirect()->route('pacientes.index')->with('success', 'Paciente creado correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::error('Error al crear el paciente');
+            return redirect()->route('pacientes.create')->with('error', 'Error al crear el Paciente');
+        }
     }
 
     /**
@@ -69,39 +84,53 @@ class PacientesController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('modules.pacientes.show',compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($user_id)
+    public function edit(User $user)
     {
-        $user = User::find($user_id);
+
         return view('modules.pacientes.edit',compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePacienteRequest $request, $user_id)
+    public function update(UpdatePacienteRequest $request, User $user)
     {
-        $user = User::find($user_id);
-        $user->name = $request->name;
-        $user->dni = $request->dni;
-        $user->email = $request->email;
-        $user->movil = $request->movil;
-        $user->save();
-        Alert::success('Paciente actualizado correctamente');
-        return redirect()->route('pacientes.index')->with('success','Paciente actualizado correctamente');
+        DB::beginTransaction();
+        try {
+            $user->fill($request->all());
+            $user->save();
+
+            if ($request->hasFile('foto')) {
+                // Eliminar foto anterior
+                if ($user->foto) {
+                    Storage::disk('public')->delete($user->foto);
+                }
+                $path = Storage::disk('public')->put("users/$user->id", $request->file('foto'));
+                $user->foto = $path;
+                $user->save();
+            }
+
+            DB::commit();
+            Alert::success('Usuario actualizado correctamente');
+            return redirect()->route('pacientes.index')->with('success', 'Usuario actualizado correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::error('Error al actualizar el usuario');
+            return redirect()->route('pacientes.edit', $user)->with('error', 'Error al actualizar el usuario');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($user_id)
+    public function destroy(User $user)
     {
-        $user = User::find($user_id);
         $user->delete();
         return redirect()->route('pacientes.index')->with('success','Paciente eliminado correctamente');
     }

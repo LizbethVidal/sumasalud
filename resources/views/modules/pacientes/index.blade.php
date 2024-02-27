@@ -47,40 +47,89 @@
 
                             </div>
                         </form>
-                        <table class="table table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>DNI</th>
-                                    <th>Teléfono</th>
-                                    <th>Correo</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        @if($agent->isMobile())
+                            <div class="row">
                                 @foreach($pacientes as $user)
-                                    <tr>
-                                        <td>{{$user->id}}</td>
-                                        <td>{{$user->name}}</td>
-                                        <td>{{$user->dni}}</td>
-                                        <td>{{$user->movil}}</td>
-                                        <td>{{$user->email}}</td>
-                                        <td>
-                                            <a href="{{route('pacientes.show', $user->id)}}" class="btn btn-primary">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            <a href="{{route('pacientes.edit', $user->id)}}" class="btn btn-warning">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <div class="col-12">
+                                        <div class="card mb-2">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <img src="{{ $user->foto ? asset('storage/' . $user->foto) : asset('storage/users/default.png') }}" alt="Foto de Perfil" class="img-thumbnail" style="max-width: 100px;">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <h5 class="card-title">{{$user->name}}</h5>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <p class="card-text">{{$user->dni}}</p>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <p class="card-text">{{$user->movil}}</p>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <p class="card-text">{{$user->email}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                <a href="{{route('pacientes.show', $user->id)}}" class="btn btn-primary">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <a href="{{route('pacientes.edit', $user->id)}}" class="btn btn-warning">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
-                            </tbody>
-                        </table>
+                            </div>
+                        @else
+                            <table class="table table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>DNI</th>
+                                        <th>Teléfono</th>
+                                        <th>Correo</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($pacientes as $user)
+                                        <tr>
+                                            <td>{{$user->id}}</td>
+                                            <td>{{$user->name}}</td>
+                                            <td>{{$user->dni}}</td>
+                                            <td>{{$user->movil}}</td>
+                                            <td>{{$user->email}}</td>
+                                            <td>
+                                                <a href="{{route('pacientes.show', $user->id)}}" class="btn btn-primary">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <a href="{{route('pacientes.edit', $user->id)}}" class="btn btn-warning">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+
+                        <div class="d-flex justify-content-center">
+                            {{$pacientes->links()}}
+                        </div>
                     </div>
                 </div>
                 <div class="mt-3">

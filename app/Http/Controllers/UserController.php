@@ -45,7 +45,7 @@ class UserController extends Controller
 
         // dd($users->toRawSql());
 
-        $users = $users->paginate(2);
+        $users = $users->paginate(10);
 
         return view('modules.users.index', compact('users','request'));
     }
@@ -53,9 +53,13 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('modules.users.create');
+        if($request->rol == 'medico'){
+            return view('modules.medicos.create');
+        }else{
+            return view('modules.users.create');
+        }
     }
 
     /**
@@ -71,7 +75,7 @@ class UserController extends Controller
             $user->save();
 
             if ($request->hasFile('foto')) {
-                $path = Storage::disk('public')->put('users', $request->file('foto'));
+                $path = Storage::disk('public')->put("users/$user->id", $request->file('foto'));
                 $user->foto = $path;
                 $user->save();
             }
@@ -99,7 +103,17 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('modules.users.edit', compact('user'));
+        switch ($user->rol) {
+            case 'medico':
+                return view('modules.medicos.edit', compact('user'));
+                break;
+            case 'paciente':
+                return view('modules.pacientes.edit', compact('user'));
+                break;
+            default:
+                return view('modules.users.edit', compact('user'));
+                break;
+        }
     }
 
     /**
@@ -117,7 +131,7 @@ class UserController extends Controller
                 if ($user->foto) {
                     Storage::disk('public')->delete($user->foto);
                 }
-                $path = Storage::disk('public')->put('users', $request->file('foto'));
+                $path = Storage::disk('public')->put("users/$user->id", $request->file('foto'));
                 $user->foto = $path;
                 $user->save();
             }

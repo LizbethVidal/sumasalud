@@ -29,7 +29,7 @@ class StoragePacienteRequest extends FormRequest
             'password' => 'required|string|min:8|confirmed',
             'direccion' => 'nullable|string|max:255',
             'fecha_nac' => 'nullable|date',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
         ];
     }
 
@@ -66,7 +66,7 @@ class StoragePacienteRequest extends FormRequest
             'fecha_nac.date' => 'La fecha de nacimiento debe ser una fecha',
             'foto.image' => 'El archivo debe ser una imagen',
             'foto.mimes' => 'El archivo debe ser una imagen de tipo: jpeg, png, jpg, gif, svg',
-            'foto.max' => 'El archivo no puede superar los 2048 kilobytes',
+            'foto.max' => 'El archivo no puede superar los 5120 KB',
         ];
     }
 
