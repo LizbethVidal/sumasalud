@@ -7,20 +7,17 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div>
-                            {{ __('Listado de empleados') }}
+                            {{ __('Listado de medicos') }}
                         </div>
                         <div class="d-flex gap-3">
-                            <a href="{{route('users.create')}}" class="btn btn-success">
-                                <i class="bi bi-plus"></i> Nuevo Empleado
-                            </a>
-                            <a href="{{route('medicos.create')}}" class="btn btn-outline-dark">
+                            <a href="{{route('users.create')}}?rol=medico" class="btn btn-outline-dark">
                                 <i class="bi bi-plus"></i> Nuevo Médico
                             </a>
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <form action="{{route('empleados.index')}}" method="GET">
+                        <form action="{{route('medicos.index')}}" method="GET">
                             @csrf
                             <div class="row mb-2">
                                 <div class="col-md-2">
@@ -32,12 +29,7 @@
                                     <input type="text" name="dni" id="dni" class="form-control" value="{{$request->dni}}">
                                 </div>
                                 <div class="col-md-2">
-                                    <label for="rol">Rol</label>
-                                    <select name="rol" id="rol" class="form-select">
-                                        <option value="">Todos</option>
-                                        <option value="medico" @if($request->rol == 'medico') selected @endif>Médico</option>
-                                        <option value="admin" @if($request->rol == 'admin') selected @endif>Administrativo</option>
-                                    </select>
+
                                 </div>
                                 <div class="col-md-2">
                                     <label for="movil">Teléfono</label>
@@ -65,39 +57,25 @@
                                     <th>Nombre</th>
                                     <th>DNI</th>
                                     <th>Teléfono</th>
-                                    <th>ROL</th>
                                     <th>Correo</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($empleados as $user)
+                                @foreach($medicos as $user)
                                     <tr>
                                         <td>{{$user->id}}</td>
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->dni}}</td>
                                         <td>{{$user->movil}}</td>
-                                        <td>{{$user->rol}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>
-                                            @if($user->rol == 'medico')
                                             <a href="{{route('medicos.show', $user->id)}}" class="btn btn-primary">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            @else
-                                            <a href="{{route('empleados.show', $user->id)}}" class="btn btn-primary">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            @endif
-                                            @if($user->rol == 'medico')
                                             <a href="{{route('medicos.edit', $user->id)}}" class="btn btn-warning">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-                                            @else
-                                            <a href="{{route('empleados.edit', $user->id)}}" class="btn btn-warning">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            @endif
                                             <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
                                                 <i class="bi bi-trash"></i>
                                             </button>
@@ -119,7 +97,7 @@
     <script>
         function delete_user(id) {
             $.ajax({
-                url: '/empleados/' + id,
+                url: '/medicos/' + id,
                 type: 'DELETE',
                 data: {
                     _token: $('input[name=_token]').val()

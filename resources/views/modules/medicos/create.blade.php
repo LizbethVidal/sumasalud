@@ -22,15 +22,6 @@
                             @endif
                         </div>
                         <div class="col-6">
-                            <label for="apellido">Apellido</label>
-                            <input type="text" name="apellido" id="apellido" class="form-control @if($errors->has('apellido')) is-invalid @endif" placeholder="Apellido" required value="{{old('apellido')}}">
-                            @if($errors->has('apellido'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{$errors->first('apellido')}}</strong>
-                                </span>
-                            @endif
-                        </div>
-                        <div class="col-6">
                             <label for="dni">DNI</label>
                             <input type="text" name="dni" id="dni" class="form-control @if($errors->has('dni')) is-invalid @endif" placeholder="DNI" required value="{{old('dni')}}">
                             @if($errors->has('dni'))
@@ -58,6 +49,20 @@
                             @endif
                         </div>
                         <div class="col-6">
+                            <label for="especialidad">Especialidad</label>
+                            <select name="especialidad" id="especialidad" class="form-control @if($errors->has('especialidad')) is-invalid @endif" required>
+                                <option value="">Seleccione una especialidad</option>
+                                @foreach($especialidades as $especialidad)
+                                    <option value="{{$especialidad->id}}">{{$especialidad->nombre}}</option>
+                                @endforeach
+                            </select>
+                            @if($errors->has('especialidad'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{$errors->first('especialidad')}}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-6">
                             <label for="direccion">Dirección</label>
                             <input type="text" name="direccion" id="direccion" class="form-control @if($errors->has('direccion')) is-invalid @endif" placeholder="Dirección" required value="{{old('direccion')}}">
                             @if($errors->has('direccion'))
@@ -77,4 +82,13 @@
         </div>
     </div>
 </div>
+
+<script type="module">
+    $(document).ready(function() {
+        $('#especialidad').select2({
+            theme:'bootstrap-5'
+        });
+    });
+
+</script>
 @endsection

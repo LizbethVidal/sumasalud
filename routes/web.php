@@ -27,8 +27,9 @@ Route::group(['middleware' => ['auth']], function () {
 Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['auth','permisos:admin']);
 Route::resource('pacientes', App\Http\Controllers\PacientesController::class)->parameters(['pacientes' => 'user'])->middleware(['auth','permisos:admin']);
 
-Route::resource('empleados', App\Http\Controllers\EmpleadosController::class)->middleware(['auth','permisos:admin']);
+Route::resource('empleados', App\Http\Controllers\EmpleadosController::class)->parameters(['empleados' => 'user'])->middleware(['auth','permisos:admin']);
 
 Route::resource('especialidades', App\Http\Controllers\EspecialidadesController::class)->parameters(['especialidades' => 'especialidad'])->middleware(['auth','permisos:admin']);
 
+Route::resource('medicos', App\Http\Controllers\MedicosController::class)->parameters(['medicos' => 'user'])->middleware(['auth','permisos:admin,medico']);
 

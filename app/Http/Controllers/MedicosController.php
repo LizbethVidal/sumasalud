@@ -2,17 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateMedicoRequest;
+use App\Http\Requests\StorageUserRequest;
+use App\Models\Especialidad;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MedicosController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        //dd($request->all());
+        $users = User::query();
+        // Select * from users;
+
+        if($request->name != ''){
+            $users = $users->where('name','like',"%$request->name%");
+        }
+
+        if($request->dni != ''){
+            $users = $users->where('dni',$request->dni);
+        }
+
+        if($request->movil != ''){
+            $users = $users->where('movil',$request->movil);
+        }
+
+        if($request->email != ''){
+            $users = $users->where('email',$request->email);  //duda: ¿debería ir like?
+        }
+
+
+
+        // dd($users->toRawSql());
+
+        $users = $users->paginate(10);
+
+        return view('modules.medicos.index', compact('users','request'));
     }
 
     /**
@@ -20,15 +52,37 @@ class MedicosController extends Controller
      */
     public function create()
     {
-        //
+        $especialidades = Especialidad::all();
+        return view('modules.medicos.create',compact('especialidades'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorageUserRequest $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $user = new User();
+            $user->fill($request->validated());
+            $user->password = bcrypt($request->password);
+            $user->rol = 'medico';
+            $user->save();
+
+            if ($request->hasFile('foto')) {
+                $path = Storage::disk('public')->put("users/$user->id", $request->file('foto'));
+                $user->foto = $path;
+                $user->save();
+            }
+
+            DB::commit();
+            Alert::success('Medico creado correctamente');
+            return redirect()->route('medicos.index')->with('success', 'Medico creado correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::error('Error al crear el medico');
+            return redirect()->route('medicos.create')->with('error', 'Error al crear el medico');
+        }
     }
 
     /**
@@ -36,7 +90,7 @@ class MedicosController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('modules.medicos.show',compact('user'));
     }
 
     /**
@@ -44,15 +98,38 @@ class MedicosController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $especialidades = Especialidad::all();
+        return view('modules.medicos.edit',compact('user','especialidades'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateMedicoRequest $request, User $user)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $user->fill($request->all());
+            $user->save();
+
+            if ($request->hasFile('foto')) {
+                // Eliminar foto anterior
+                if ($user->foto) {
+                    Storage::disk('public')->delete($user->foto);
+                }
+                $path = Storage::disk('public')->put("users/$user->id", $request->file('foto'));
+                $user->foto = $path;
+                $user->save();
+            }
+
+            DB::commit();
+            Alert::success('Medico actualizado correctamente');
+            return redirect()->route('medicos.index')->with('success', 'Medico actualizado correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::error('Error al actualizar el medico');
+            return redirect()->route('medico.edit', $user)->with('error', 'Error al actualizar el medico');
+        }
     }
 
     /**
@@ -60,6 +137,7 @@ class MedicosController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->route('pacientes.index')->with('success','Paciente eliminado correctamente');
     }
 }

@@ -12,10 +12,12 @@
                         <div>
                             <h3>Users</h3>
                             <hr>
-                            <a href="{{ route('users.create') }}" class="btn btn-primary">Crear Usuario</a>
-                            <a href="{{ route('users.index') }}" class="btn btn-primary">Ver Usuarios</a>
-                            <a href="{{ route('pacientes.index')}}" class="btn btn-primary"> Ver Pacientes</a>
-                            <a href="{{ route('empleados.index')}}" class="btn btn-primary"> Ver Empleados</a>
+                            <div class="d-flex justify-content-start gap-3 flex-column flex-md-row">
+                                <a href="{{ route('users.index') }}" class="btn btn-primary">Ver Usuarios</a>
+                                <a href="{{ route('pacientes.index')}}" class="btn btn-primary"> Ver Pacientes</a>
+                                <a href="{{ route('empleados.index')}}" class="btn btn-primary"> Ver Empleados</a>
+                                <a href="{{ route('empleados.index')}}?rol=medico" class="btn btn-primary"> Ver Médicos</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -27,8 +29,10 @@
                     <div>
                         <h3>Especialidades</h3>
                         <hr>
-                        <a href="{{ route('especialidades.create') }}" class="btn btn-primary">Crear Especialidad</a>
-                        <a href="{{ route('especialidades.index') }}" class="btn btn-primary">Ver Especialidades</a>
+                        <div class="d-flex justify-content-start gap-3 flex-column flex-md-row">
+                            <a href="{{ route('especialidades.create') }}" class="btn btn-primary">Crear Especialidad</a>
+                            <a href="{{ route('especialidades.index') }}" class="btn btn-primary">Ver Especialidades</a>
+                        </div>
                     </div>
                 </div>
             </div>

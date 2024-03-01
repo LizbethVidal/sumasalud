@@ -7,10 +7,10 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-12 mb-2">
+            <div class="col-12 mb-1">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Paciente</h5>
+                        <h5 class="card-title">Empleado</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -35,8 +35,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="telefono">Teléfono</label>
-                                            <input type="text" class="form-control" id="telefono" value="{{ $user->telefono }}" readonly>
+                                            <label for="movil">Teléfono</label>
+                                            <input type="text" class="form-control" id="movil" value="{{ $user->movil }}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -51,24 +51,16 @@
                                             <input type="text" class="form-control" id="dni" value="{{ $user->dni }}" readonly>
                                         </div>
                                     </div>
-                                    @if($user->tutor)
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="tutor">Tutor</label>
-                                                <input type="text" class="form-control" id="tutor" value="{{ $user->tutor->name }}" readonly>
-                                            </div>
-                                        </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="{{ route('pacientes.index') }}" class="btn btn-secondary">Volver</a>
+                        <a href="{{ route('empleados.index') }}" class="btn btn-secondary">Volver</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mt-1">
+            {{-- <div class="col-md-6 mt-1">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title">Citas</h5>
@@ -123,7 +115,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection
