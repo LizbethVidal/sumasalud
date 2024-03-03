@@ -41,8 +41,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                            <input type="text" class="form-control" id="fecha_nacimiento" value="{{ $user->fecha_nacimiento }}" readonly>
+                                            <label for="fecha_nac">Fecha de Nacimiento</label>
+                                            <input type="text" class="form-control" id="fecha_nac" value="{{ $user->fecha_nac }}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

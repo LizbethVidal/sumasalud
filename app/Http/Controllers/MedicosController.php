@@ -124,11 +124,11 @@ class MedicosController extends Controller
 
             DB::commit();
             Alert::success('Medico actualizado correctamente');
-            return redirect()->route('medicos.index')->with('success', 'Medico actualizado correctamente');
+            return redirect()->route('empleados.index')->with('success', 'Medico actualizado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
             Alert::error('Error al actualizar el medico');
-            return redirect()->route('medico.edit', $user)->with('error', 'Error al actualizar el medico');
+            return redirect()->route('empleados.edit', $user)->with('error', 'Error al actualizar el medico');
         }
     }
 

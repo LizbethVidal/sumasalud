@@ -26,7 +26,7 @@ class UpdateMedicoRequest extends FormRequest
             'dni' => 'required|string|max:255',
             'movil' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'especialidad' => 'required|string|max:255',
+            'especialidad_id' => 'required|string|max:255',
         ];
     }
 
@@ -52,7 +52,7 @@ class UpdateMedicoRequest extends FormRequest
             'email.email' => 'El email debe ser una dirección de correo válida',
             'email.string' => 'El email debe ser una cadena de caracteres',
             'email.max' => 'El email no puede superar los 255 caracteres',
-            'especialidad.required' => 'La especialidad es obligatoria',
+            'especialidad_id.required' => 'La especialidad es obligatoria',
         ];
     }
 }

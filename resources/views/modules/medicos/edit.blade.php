@@ -81,8 +81,8 @@
                                 @endif
                             </div>
                             <div class="col-3">
-                                <label for="especialidad">Especialidad</label>
-                                <select name="especialidad" id="especialidad" class="form-control form-select @if($errors->has('especialidad')) is-invalid @endif" required>
+                                <label for="especialidad_id">Especialidad</label>
+                                <select name="especialidad_id" id="especialidad_id" class="form-control form-select @if($errors->has('especialidad_id')) is-invalid @endif" required>
                                     <option value="">Seleccione una especialidad</option>
                                     @foreach($especialidades as $especialidad)
                                         <option value="{{$especialidad->id}}" @if($user->especialidad_id == $especialidad->id) selected @endif>{{$especialidad->nombre}}</option>

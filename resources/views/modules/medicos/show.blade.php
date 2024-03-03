@@ -35,14 +35,14 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="telefono">Teléfono</label>
-                                            <input type="text" class="form-control" id="telefono" value="{{ $user->telefono }}" readonly>
+                                            <label for="movil">Teléfono</label>
+                                            <input type="text" class="form-control" id="movil" value="{{ $user->movil }}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                            <input type="text" class="form-control" id="fecha_nacimiento" value="{{ $user->fecha_nacimiento }}" readonly>
+                                            <label for="fecha_nac">Fecha de Nacimiento</label>
+                                            <input type="text" class="form-control" id="fecha_nac" value="{{ $user->fecha_nac }}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
