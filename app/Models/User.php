@@ -64,6 +64,13 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function doctor_principal()
+    {
+        return $this->belongsToMany(User::class, 'user_doctores', 'paciente_id', 'doctor_id')
+            ->wherePivot('doctor_principal', 1)
+            ->withTimestamps()->first();
+    }
+
     public function especialidad()
     {
         return $this->belongsTo(Especialidad::class, 'especialidad_id');

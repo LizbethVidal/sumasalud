@@ -47,7 +47,11 @@ class PacientesController extends Controller
      */
     public function create()
     {
-        return view('modules.pacientes.create');
+        $medicos = User::where('rol','medico')->whereHas('especialidad',function($query){
+            $query->where('nombre','General');
+        })->get();
+
+        return view('modules.pacientes.create',compact('medicos'));
     }
 
     /**
@@ -63,6 +67,10 @@ class PacientesController extends Controller
             $user->password = bcrypt($request->password);
             $user->save();
 
+            if($request->medico_id != null){
+                $user->doctores()->attach($request->medico_id, ['doctor_principal' => 1]);
+            }
+
             if ($request->hasFile('foto')) {
                 $path = Storage::disk('public')->put("users/$user->id", $request->file('foto'));
                 $user->foto = $path;
@@ -74,7 +82,7 @@ class PacientesController extends Controller
             return redirect()->route('pacientes.index')->with('success', 'Paciente creado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
-            Alert::error('Error al crear el paciente');
+            Alert::error('Error al crear el paciente',$e->getMessage());
             return redirect()->route('pacientes.create')->with('error', 'Error al crear el Paciente');
         }
     }
@@ -92,8 +100,10 @@ class PacientesController extends Controller
      */
     public function edit(User $user)
     {
-
-        return view('modules.pacientes.edit',compact('user'));
+        $medicos = User::where('rol','medico')->whereHas('especialidad',function($query){
+            $query->where('nombre','General');
+        })->get();
+        return view('modules.pacientes.edit',compact('user','medicos'));
     }
 
     /**
@@ -105,6 +115,10 @@ class PacientesController extends Controller
         try {
             $user->fill($request->all());
             $user->save();
+
+            if($request->medico_id != null){
+                $user->doctores()->attach($request->medico_id, ['doctor_principal' => 1]);
+            }
 
             if ($request->hasFile('foto')) {
                 // Eliminar foto anterior

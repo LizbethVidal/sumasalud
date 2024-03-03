@@ -93,14 +93,29 @@
                                 <label for="direccion">Dirección</label>
                                 <input type="text" name="direccion" id="direccion" class="form-control @if($errors->has('direccion')) is-invalid @endif" placeholder="Dirección" value="{{$user->direccion}}">
                             </div>
+                            <div class="col-md-3">
+                                <label for="medico_id">Médico de cabecera</label>
+                                <select name="medico_id" id="medico_id" class="form-select @if($errors->has('medico_id')) is-invalid @endif">
+                                    <option value="">Seleccione un médico</option>
+                                    @foreach($medicos as $medico)
+                                        <option value="{{$medico->id}}" {{$user->doctor_principal()->id == $medico->id ? 'selected' : ''}}>{{$medico->name}}</option>
+                                    @endforeach
+                                </select>
+                                @if($errors->has('medico_id'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{$errors->first('medico_id')}}</strong>
+                                    </span>
+                                @endif
+                            </div>
                             <div class="col-12 mt-3">
                                 <a href="{{route('pacientes.index')}}" class="btn btn-outline-dark">
                                     <i class="bi bi-arrow-left-circle"></i> Volver
                                 </a>
                                 @if($user->rol == 'paciente')
-                                    <button type="button" class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#modal_tutor">
+                                    <button type="button" class="btn btn-warning"  data-bs-toggle="modal" data-bs-target="#modal_tutor">
                                         <i class="bi bi-person-plus"></i> Asignar Tutor
                                     </button>
+
                                 @endif
                                 <button type="submit" class="btn btn-primary">
                                     <i class="bi bi-save"></i> Guardar

@@ -120,6 +120,9 @@
                                                 <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
+                                                <a href="{{route('citas.create', ['paciente_id' => $user->id])}}" class="btn btn-success" title="Crear Cita">
+                                                    <i class="bi bi-calendar-plus"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -127,7 +130,7 @@
                             </table>
                         @endif
 
-                        <div class="d-flex justify-content-center">
+                        <div class="">
                             {{$pacientes->links()}}
                         </div>
                     </div>

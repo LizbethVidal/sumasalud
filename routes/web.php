@@ -14,18 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware(['auth']);
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware(['auth']);
 Route::group(['middleware' => ['auth']], function () {
     Route::post('users/search_tutor', [App\Http\Controllers\UserController::class, 'search_tutor'])->name('users.search_tutor');
+    Route::group(['prefix' => 'citas'], function () {
+        Route::get('paciente', [App\Http\Controllers\CitaController::class, 'search_paciente'])->name('citas.paciente');
+        Route::get('busqueda', [App\Http\Controllers\CitaController::class, 'search'])->name('citas.busqueda');
+    });
 });
 Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['auth','permisos:admin']);
-Route::resource('pacientes', App\Http\Controllers\PacientesController::class)->parameters(['pacientes' => 'user'])->middleware(['auth','permisos:admin']);
+Route::resource('pacientes', App\Http\Controllers\PacientesController::class)->parameters(['pacientes' => 'user'])->except(['show'])->middleware(['auth','permisos:admin']);
+Route::get('pacientes/{user}', [App\Http\Controllers\PacientesController::class, 'show'])->name('pacientes.show')->middleware(['auth','permisos:admin,medico']);
 
 Route::resource('empleados', App\Http\Controllers\EmpleadosController::class)->parameters(['empleados' => 'user'])->middleware(['auth','permisos:admin']);
 
@@ -33,3 +36,4 @@ Route::resource('especialidades', App\Http\Controllers\EspecialidadesController:
 
 Route::resource('medicos', App\Http\Controllers\MedicosController::class)->parameters(['medicos' => 'user'])->middleware(['auth','permisos:admin,medico']);
 
+Route::resource('citas', App\Http\Controllers\CitaController::class)->middleware(['auth','permisos:admin,medico']);
