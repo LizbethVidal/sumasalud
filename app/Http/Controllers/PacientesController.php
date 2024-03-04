@@ -103,6 +103,11 @@ class PacientesController extends Controller
         $medicos = User::where('rol','medico')->whereHas('especialidad',function($query){
             $query->where('nombre','General');
         })->get();
+
+        $medicos = $medicos->filter(function($medico){
+            return $medico->pacientes->count() < 5;
+        });
+
         return view('modules.pacientes.edit',compact('user','medicos'));
     }
 

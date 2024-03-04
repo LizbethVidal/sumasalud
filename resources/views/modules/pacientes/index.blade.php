@@ -37,7 +37,7 @@
                                     <input type="email" name="email" id="email" class="form-control" value="{{$request->email}}">
                                 </div>
 
-                                <div class="col d-flex flex-column justify-content-end">
+                                <div class="col d-flex flex-column justify-content-end mt-3 mt-md-0">
                                     <div>
                                         <button type="submit" class="btn btn-success" >
                                             Buscar
@@ -130,7 +130,7 @@
                             </table>
                         @endif
 
-                        <div class="">
+                        <div class="d-flex d-md-block justify-content-center">
                             {{$pacientes->links()}}
                         </div>
                     </div>

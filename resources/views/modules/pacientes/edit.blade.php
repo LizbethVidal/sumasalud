@@ -17,7 +17,7 @@
                         @csrf
                         @method('PUT')
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-md-4">
                                 <div class="mt-2 profile_img">
                                     <img id="preview" src="{{ $user->foto ? asset('storage/' . $user->foto) : asset('storage/users/default.png') }}" alt="Foto de Perfil" class="img-thumbnail" style="max-width: 200px;">
                                 </div>
@@ -31,10 +31,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 mb-3"></div>
+                            <div class="col-md-12 mb-3"></div>
                             <hr>
 
-                            <div class="col-6">
+                            <div class="col-md-6">
                                 <label for="name">Nombre</label>
                                 <input type="text" name="name" id="name" class="form-control @if($errors->has('name')) is-invalid @endif" placeholder="Nombre" required value="{{$user->name}}">
                                 @if($errors->has('name'))
@@ -43,7 +43,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-6">
+                            <div class="col-md-6">
                                 <label for="email">Correo</label>
                                 <input type="email" name="email" id="email" class="form-control @if($errors->has('email')) is-invalid @endif" placeholder="Correo" required value="{{$user->email}}">
                                 @if($errors->has('email'))
@@ -53,7 +53,7 @@
                                 @endif
                             </div>
 
-                            <div class="col-3">
+                            <div class="col-md-3">
                                 <label for="dni">DNI</label>
                                 <input type="text" name="dni" id="dni" class="form-control @if($errors->has('dni')) is-invalid @endif" placeholder="DNI" required value="{{$user->dni}}">
                                 @if($errors->has('dni'))
@@ -62,7 +62,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-3">
+                            <div class="col-md-3">
                                 <label for="movil">Teléfono</label>
                                 <input type="text" name="movil" id="movil" class="form-control @if($errors->has('movil')) is-invalid @endif" placeholder="Teléfono" required value="{{$user->movil}}">
                                 @if($errors->has('movil'))
@@ -71,7 +71,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-3">
+                            <div class="col-md-3">
                                 <label for="fecha_nac">Fecha de Nacimiento</label>
                                 <input type="date" name="fecha_nac" id="fecha_nac" class="form-control @if($errors->has('fecha_nac')) is-invalid @endif" placeholder="Fecha de Nacimiento" value="{{$user->fecha_nac}}">
                                 @if($errors->has('fecha_nac'))
@@ -81,7 +81,7 @@
                                 @endif
                             </div>
                             @if($user->rol == 'paciente')
-                            <div class="col-3">
+                            <div class="col-md-3">
                                 <label for="tutor">Tutor</label>
                                 <input readonly="true" type="text" name="tutor" id="tutor" class="form-control" placeholder="Tutor" value="{{$user->tutor?->name}}">
                                 <input type="hidden" name="tutor_id" id="tutor_id" value="{{$user->tutor_id}}">
@@ -89,7 +89,7 @@
                             @elseif ($user->rol == 'medico')
                                 {{-- Especialidad seleccionar, como quieras  --}}
                             @endif
-                            <div class="col-9">
+                            <div class="col-md-9">
                                 <label for="direccion">Dirección</label>
                                 <input type="text" name="direccion" id="direccion" class="form-control @if($errors->has('direccion')) is-invalid @endif" placeholder="Dirección" value="{{$user->direccion}}">
                             </div>
@@ -98,7 +98,7 @@
                                 <select name="medico_id" id="medico_id" class="form-select @if($errors->has('medico_id')) is-invalid @endif">
                                     <option value="">Seleccione un médico</option>
                                     @foreach($medicos as $medico)
-                                        <option value="{{$medico->id}}" {{$user->doctor_principal()->id == $medico->id ? 'selected' : ''}}>{{$medico->name}}</option>
+                                        <option value="{{$medico->id}}" {{$user->doctor_principal()?->id == $medico->id ? 'selected' : ''}}>{{$medico->name}}</option>
                                     @endforeach
                                 </select>
                                 @if($errors->has('medico_id'))
@@ -198,6 +198,11 @@
             $('#modal_tutor').on('hidden.bs.modal', function (e) {
                 $('#tutor_search').val('');
                 $('#tutors').html('');
+            });
+
+            $('#medico_id').select2({
+                placeholder: 'Seleccione un médico',
+                theme: 'bootstrap-5',
             });
         });
     </script>

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Cita;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class CitaController extends Controller
@@ -12,9 +14,41 @@ class CitaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $citas = Cita::query();
+
+        if($request->name != ""){
+            $citas = $citas->whereHas('paciente',function($query) use ($request){
+                $query->where('name','like','%'.$request->name.'%');
+            });
+        }
+
+        if($request->dni != ""){
+            $citas = $citas->whereHas('paciente',function($query) use ($request){
+                $query->where('dni','like','%'.$request->dni.'%');
+            });
+        }
+
+        if($request->telefono != ""){
+            $citas = $citas->whereHas('paciente',function($query) use ($request){
+                $query->where('movil','like','%'.$request->telefono.'%');
+            });
+        }
+
+        if($request->email != ""){
+            $citas = $citas->whereHas('paciente',function($query) use ($request){
+                $query->where('email','like','%'.$request->email.'%');
+            });
+        }
+
+        if($request->fecha != ""){
+            $citas = $citas->whereDate('fecha_hora',$request->fecha);
+        }
+
+        $citas = $citas->paginate(10);
+
+        return view('modules.citas.index',compact('citas','request'));
     }
 
     /**
@@ -37,7 +71,31 @@ class CitaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $cita = new Cita();
+            if($request->en_espera == '1'){
+                $cita->estado = 'ESPERA';
+            }elseif($request->fecha_hora != null){
+                $cita->fecha_hora = Carbon::parse($request->fecha_hora)->format('Y-m-d H:i:s');
+                $cita->estado = 'CONFIRMADA';
+            }else{
+                Alert::error('Error', 'No se ha seleccionado una fecha y hora');
+                return redirect()->back();
+            }
+            $cita->paciente_id = $request->paciente_id;
+            $cita->doctor_id = $request->medico;
+            $cita->motivo = $request->motivo;
+            $cita->save();
+            DB::commit();
+            Alert::success('Exito', 'Cita creada correctamente');
+            return redirect()->route('citas.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::error('Error', 'No se ha podido crear la cita');
+            return redirect()->back();
+        }
     }
 
     /**

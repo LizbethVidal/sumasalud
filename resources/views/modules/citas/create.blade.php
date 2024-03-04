@@ -14,17 +14,17 @@
                         <form method="POST" action="{{route('citas.store')}}">
                             @csrf
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <label for="paciente_id">Paciente</label>
                                     <input type="text" name="nombre_paciente" id="nombre_paciente" class="form-control" value="{{$paciente->name}}" readonly>
                                     <input type="hidden" name="paciente_id" id="paciente_id" class="form-control @if($errors->has('paciente_id')) is-invalid @endif" required value="{{$paciente->id}}">
                                 </div>
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <label for="medico">Médico</label>
                                     <select name="medico" id="medico" class="form-control @if($errors->has('medico')) is-invalid @endif" required>
                                         <option value="">Seleccione un médico</option>
                                         @foreach($medicos as $medico)
-                                            <option value="{{$medico->id}}">{{$medico->name}}</option>
+                                            <option value="{{$medico->id}}"  {{$paciente->doctor_principal()?->id == $medico->id ? 'selected' : ''}}>{{$medico->name}} - {{$medico->especialidad?->nombre}}</option>
                                         @endforeach
                                     </select>
                                     @if($errors->has('medico'))
@@ -33,14 +33,23 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div class="col-6">
-                                    <label for="fecha_hora">Fecha y hora</label>
-                                    <input type="text" name="fecha_hora" id="fecha_hora" class="form-control @if($errors->has('fecha_hora')) is-invalid @endif" required value="{{old('fecha_hora')}}">
-                                    @if($errors->has('fecha_hora'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{$errors->first('fecha_hora')}}</strong>
-                                        </span>
-                                    @endif
+                                <div class="col my-3">
+                                    {{-- Switch checkbox --}}
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="en_espera" name="en_espera" value="1">
+                                        <label class="form-check-label" for="en_espera">Poner en espera</label>
+                                    </div>
+                                </div>
+                                <div class="col-12 d-flex justify-content-center" id="fecha_hora_content">
+                                    <div >
+                                        <label for="fecha_hora">Fecha y hora</label>
+                                        <input type="text" name="fecha_hora" id="fecha_hora" class="form-control @if($errors->has('fecha_hora')) is-invalid @endif" required value="{{old('fecha_hora')}}">
+                                        @if($errors->has('fecha_hora'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{$errors->first('fecha_hora')}}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
                                 <div class="col-12">
                                     <label for="motivo">Motivo</label>
@@ -73,6 +82,7 @@
             flatpickr('#fecha_hora',{
                 enableTime: true,
                 dateFormat: "Y-m-d H:i",
+                inline: true,
                 disable: [
                     function(date) {
                         // Disable weekends
@@ -81,7 +91,9 @@
                 ],
                 time_24hr: true,
                 minTime: "08:00",
-                maxTime: "19:00",
+                maxTime: "18:30",
+                minDate: "today",
+                maxDate: new Date().fp_incr(30),
                 locale: {
                     firstDayOfWeek: 1,
                     weekdays: {
@@ -95,6 +107,15 @@
                 }
             });
 
+
+            $('#en_espera').on('change', function(){
+                if($(this).is(':checked')){
+                    $('#fecha_hora_content').addClass('d-none');
+                    $('#fecha_hora').val('');
+                }else{
+                    $('#fecha_hora_content').removeClass('d-none');
+                }
+            });
         });
     </script>
 @endsection

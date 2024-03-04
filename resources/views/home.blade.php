@@ -3,16 +3,14 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8 d-flex justify-content-start flex-column gap-3">
-            @if(Auth::user()->rol == 'admin' )
+        @if(Auth::user()->rol == 'admin' )
+            <div class="col-md-3 my-3 my-md-0">
                 <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
+                    <div class="card-header">{{ __('Users') }}</div>
 
                     <div class="card-body">
                         <div>
-                            <h3>Users</h3>
-                            <hr>
-                            <div class="d-flex justify-content-start gap-3 flex-column flex-md-row">
+                            <div class="d-flex justify-content-start gap-3 flex-column">
                                 <a href="{{ route('users.index') }}" class="btn btn-primary">Ver Usuarios</a>
                                 <a href="{{ route('pacientes.index')}}" class="btn btn-primary"> Ver Pacientes</a>
                                 <a href="{{ route('empleados.index')}}" class="btn btn-primary"> Ver Empleados</a>
@@ -21,30 +19,30 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-3 my-3 my-md-0">
                 <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
+                    <div class="card-header">{{ __('Especialidades') }}</div>
 
                     <div class="card-body">
                         <div>
-                            <h3>Especialidades</h3>
-                            <hr>
-                            <div class="d-flex justify-content-start gap-3 flex-column flex-md-row">
+                            <div class="d-flex justify-content-start gap-3 flex-column">
                                 <a href="{{ route('especialidades.create') }}" class="btn btn-primary">Crear Especialidad</a>
                                 <a href="{{ route('especialidades.index') }}" class="btn btn-primary">Ver Especialidades</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            @endif
-            @if(Auth::user()->rol != 'paciente')
+            </div>
+        @endif
+        @if(Auth::user()->rol != 'paciente')
+            <div class="col-md-3 my-3 my-md-0">
                 <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
+                    <div class="card-header">{{ __('Citas') }}</div>
 
                     <div class="card-body">
                         <div>
-                            <h3>Citas</h3>
-                            <hr>
-                            <div class="d-flex justify-content-start gap-3 flex-column flex-md-row">
+                            <div class="d-flex justify-content-start gap-3 flex-column">
                                 {{-- <a id="crearCita" class="btn btn-primary"
                                 data-bs-toggle="collapse" href="#form_cita" role="button"
                                 aria-expanded="false" aria-controls="form_cita">Crear Cita</a> --}}
@@ -72,8 +70,11 @@
                         </div>
                     </div>
                 </div>
-            @endif
-        </div>
+                <div class="card">
+                    
+                </div>
+            </div>
+        @endif
     </div>
 </div>
 
