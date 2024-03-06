@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\CorreoCita;
 use App\Mail\CorreoCitas;
+use App\Mail\VideoLLamadaCita;
 use App\Models\Cita;
 use App\Models\User;
 use Carbon\Carbon;
@@ -25,6 +26,12 @@ class CitaController extends Controller
             $citas = $citas->whereHas('paciente',function($query) use ($request){
                 $query->where('name','like','%'.$request->name.'%');
             });
+        }
+
+        if($request->estado != "TODOS" && $request->estado != ""){
+            $citas = $citas->where('estado',$request->estado);
+        }elseif($request->estado == ""){
+            $citas = $citas->where('estado','!=','CANCELADA')->where('estado','!=','ATENDIDA');
         }
 
         if($request->dni != ""){
@@ -49,9 +56,16 @@ class CitaController extends Controller
             $citas = $citas->whereDate('fecha_hora',$request->fecha);
         }
 
-        $citas = $citas->paginate(10);
+        $citas = $citas->orderByRaw('
+            CASE
+                WHEN estado = "CONFIRMADA" THEN 1
+                WHEN estado = "ESPERA" THEN 2
+                WHEN estado = "ATENDIDA" THEN 3
+                WHEN estado = "CANCELADA" THEN 4
+            END
+        ')->paginate(10);
 
-        
+
 
         return view('modules.citas.index',compact('citas','request'));
     }
@@ -169,5 +183,20 @@ class CitaController extends Controller
     public function search(Request $request)
     {
         return view('modules.citas.busqueda');
+    }
+
+    public function videollamada(Cita $cita)
+    {
+        //Genera un enlace para la videollamada de meet
+        $hash = md5($cita->id);
+        $enlace = 'https://meet.jit.si/'.$hash;
+
+        $cita->enlace = $enlace;
+        $cita->save();
+
+        Mail::to($cita->paciente->email)->send(new VideoLLamadaCita($cita, 'Enlace de videollamada'));
+
+        Alert::success('Exito', 'Se ha enviado el enlace de la videollamada');
+        return redirect()->back();
     }
 }

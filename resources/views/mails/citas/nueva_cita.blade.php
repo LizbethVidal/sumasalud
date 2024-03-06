@@ -1,27 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Nueva Cita</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-<body>
-    <h1>Nueva Cita</h1>
+@component('mail::message')
+# Nueva cita
 
-    <p>Estimado(a) {{ $cita->paciente->name }},</p>
+Se ha creado una nueva cita para el paciente {{ $cita->paciente->name}}.
 
-    <p>Se ha programado una nueva cita para usted. Aquí están los detalles:</p>
+@component('mail::panel')
+    @if($cita->estado == 'ESPERA')
+        **Estado:** Pendiente de disponibilidad del médico <br>
+    @else
+        **Estado:** Confirmada </br>
+        **Fecha:** {{ $cita->fecha_hora }}<br>
+    @endif
+    **Doctor:** {{ $cita->doctor->name }} - {{ $cita->doctor->especialidad->nombre }}<br>
+@endcomponent
 
-    <ul>
-        <li>Fecha: {{ $cita->fecha_hora }}</li>
-        <li>Médico: {{ $cita->doctor->name }}</li>
-        <li>Especialidad: {{ $cita->doctor->especialidad->nombre }}</li>
-        <li>Motivo: {{ $cita->motivo }}</li>
+@component('mail::panel')
+    @if($cita->estado == 'ESPERA')
+        Desde la administración se le notificará cuando la cita sea confirmada y en caso de ser online se le enviará el enlace para la videollamada.
+    @else
+        Recuerde que si no puede asistir a la cita, debe cancelarla con al menos 24 horas de antelación.
+    @endif
+@endcomponent
 
-    </ul>
+@component('mail::button', ['url' => route('citas.show', $cita->id)])
 
-    <p>Si necesita cambiar la cita, por favor contáctenos lo antes posible.</p>
+Ver cita
 
-    <p>Gracias,</p>
-    <p>El equipo de Suma Salud</p>
-</body>
-</html>
+@endcomponent
+
+Gracias,<br>
+{{ config('app.name') }}
+@endcomponent

@@ -5,24 +5,23 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class CorreoCitas extends Mailable
+class AltaUsuario extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $cita;
-    protected $asunto;
+    protected $usuario;
+    protected $asunto = 'Bienvenido a Suma Salud';
     /**
      * Create a new message instance.
      */
-    public function __construct($cita, $asunto)
+    public function __construct($usuario)
     {
-        $this->cita = $cita;
-        $this->asunto = $asunto;
+        $this->usuario = $usuario;
     }
 
     /**
@@ -42,8 +41,8 @@ class CorreoCitas extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.citas.nueva_cita',
-            with: ['cita' => $this->cita]
+            view: 'mails.usuarios.alta_usuario',
+            with: ['user' => $this->usuario]
         );
     }
 
@@ -57,11 +56,8 @@ class CorreoCitas extends Mailable
         return [];
     }
 
-    /**
-     * Build the message.
-     */
     public function build()
     {
-        return $this->markdown('mails.citas.nueva_cita', ['cita' => $this->cita]);
+        return $this->markdown('mails.users.alta_usuario', ['user' => $this->usuario]);
     }
 }

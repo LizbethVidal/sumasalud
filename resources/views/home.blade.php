@@ -43,36 +43,18 @@
                     <div class="card-body">
                         <div>
                             <div class="d-flex justify-content-start gap-3 flex-column">
-                                {{-- <a id="crearCita" class="btn btn-primary"
-                                data-bs-toggle="collapse" href="#form_cita" role="button"
-                                aria-expanded="false" aria-controls="form_cita">Crear Cita</a> --}}
                                 <a href="{{ route('citas.busqueda') }}" class="btn btn-primary">Crear cita</a>
                                 <a href="{{ route('citas.index') }}" class="btn btn-primary">Ver citas</a>
                             </div>
-                            {{-- <div class="collapse" id="form_cita">
-                                <div class="card card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="dni_paciente">Paciente</label>
-                                        <input type="text" name="dni_paciente" id="dni_paciente" class="form-control">
-                                        <input type="hidden" name="paciente_id" id="paciente_id" class="form-control">
-
-                                    </div>
-                                    <div class="col-md-6 d-flex flex-column justify-content-end">
-                                        <input type="text" readonly id="nombre_paciente" class="form-control d-none">
-                                    </div>
-                                    <div class="col-12">
-                                        <button type="button" class="btn btn-primary mt-3" id="crearCita">Crear Cita</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card mt-3">
                     <div class="card-header">
-                        
+
+                    </div>
+                    <div class="card-body">
+
                     </div>
                 </div>
             </div>

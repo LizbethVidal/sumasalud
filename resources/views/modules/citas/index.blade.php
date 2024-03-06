@@ -25,6 +25,21 @@
                                     value="{{$request->name}}">
                             </div>
                             <div class="col-md-2">
+                                <label for="estado">Estado</label>
+                                <select name="estado" id="estado" class="form-control">
+                                    <option value="">Seleccione un estado</option>
+                                    <option value="TODOS" @if($request->estado == 'TODOS') selected @endif>Todos</option>
+                                    <option value="CONFIRMADA" @if($request->estado == 'CONFIRMADA') selected @endif>
+                                        Confirmada</option>
+                                    <option value="ESPERA" @if($request->estado == 'ESPERA') selected @endif>En
+                                        espera</option>
+                                    <option value="ATENDIDA" @if($request->estado == 'ATENDIDA') selected @endif>
+                                        Atendida</option>
+                                    <option value="CANCELADA" @if($request->estado == 'CANCELADA') selected @endif>
+                                        Cancelada</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
                                 <label for="dni">DNI</label>
                                 <input type="text" name="dni" id="dni" class="form-control" value="{{$request->dni}}">
                             </div>
@@ -43,7 +58,7 @@
                                 <input type="date" name="fecha" id="fecha" class="form-control"
                                     value="{{$request->fecha}}">
                             </div>
-                            <div class="col d-flex flex-column justify-content-end">
+                            <div class="col d-flex flex-column justify-content-end mt-2">
                                 <div>
                                     <button type="submit" class="btn btn-success">
                                         Buscar
@@ -78,27 +93,18 @@
                                     @endif
                                     @if($cita->estado == 'ESPERA')
                                     <td>
-                                        <span class="badge bg-warning text-dark">Pendiente cita por videollamada</span>
+                                        @if(empty($cita->enlace))
+                                            <span class="badge bg-warning text-dark">Pendiente cita por videollamada</span>
+                                        @else
+                                            <a href="{{$cita->enlace}}" class="badge bg-success" target="_blank">
+                                                <i class="bi bi-camera-video"></i> Acceder a la videollamada
+                                            </a>
+                                        @endif
                                     </td>
                                     @else
                                     <td>{{$cita->fechaCita()}}</td>
                                     @endif
                                     <td>
-                                        {{-- <select name="estado" @if($cita->estado == 'ATENDIDA' || $cita->estado ==
-                                            'CANCELADA') disabled @endif id="estado" class="form-control"
-                                            onchange="cambiarEstado({{$cita->id}}, this.value)">
-                                            @if($cita->estado != 'ESPERA')
-                                                <option value="CONFIRMADA"
-                                                    {{$cita->estado == 'CONFIRMADA' ? 'selected' : ''}}>Confirmada</option>
-                                            @endif
-                                            <option value="ATENDIDA" {{$cita->estado == 'ATENDIDA' ? 'selected' : ''}}>
-                                                Atendida</option>
-                                            <option value="CANCELADA"
-                                                {{$cita->estado == 'CANCELADA' ? 'selected' : ''}}>Cancelada</option>
-                                            @if($cita->estado == 'ESPERA')
-                                                <option value="ESPERA" selected>En espera</option>
-                                            @endif
-                                        </select> --}}
                                         <div class="d-flex flex-column">
                                             @switch($cita->estado)
                                                 @case('ATENDIDA')
@@ -123,19 +129,14 @@
                                         <a href="{{route('citas.show', $cita->id)}}" class="btn btn-primary">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        @if($cita->estado != 'ATENDIDA' && $cita->estado != 'CANCELADA')
-                                        <a href="{{route('citas.edit', $cita->id)}}" class="btn btn-warning">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-
-                                        <form action="{{route('citas.destroy', $cita->id)}}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
+                                        @if($cita->estado == 'ESPERA')
+                                            {{-- GENERAR VIDEOLLAMADA --}}
+                                            @if(empty($cita->enlace))
+                                                <a class="btn btn-purple" href="{{route('citas.videollamada', $cita->id)}}">
+                                                    <i class="bi bi-camera-video"></i>
+                                                </a>
+                                            @endif
+                                            
                                         @endif
                                     </td>
                                 </tr>
@@ -144,7 +145,7 @@
                         </table>
                     </div>
                     <div class="d-flex d-md-block justify-content-center">
-                        {{$citas->links()}}
+                        {{$citas->appends(request()->input())->links()}}
                     </div>
                 </div>
             </div>

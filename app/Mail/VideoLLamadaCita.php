@@ -5,17 +5,18 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class CorreoCitas extends Mailable
+class VideoLLamadaCita extends Mailable
 {
     use Queueable, SerializesModels;
 
     protected $cita;
     protected $asunto;
+
     /**
      * Create a new message instance.
      */
@@ -42,7 +43,7 @@ class CorreoCitas extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.citas.nueva_cita',
+            view: 'mails.citas.videollamada',
             with: ['cita' => $this->cita]
         );
     }
@@ -57,11 +58,8 @@ class CorreoCitas extends Mailable
         return [];
     }
 
-    /**
-     * Build the message.
-     */
     public function build()
     {
-        return $this->markdown('mails.citas.nueva_cita', ['cita' => $this->cita]);
+        return $this->markdown('mails.citas.videollamada', ['cita' => $this->cita]);
     }
 }

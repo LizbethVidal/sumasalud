@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Mail\UpdateCita;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Cita extends Model
 {
@@ -21,6 +23,21 @@ class Cita extends Model
         'estado'
     ];
 
+
+    public static function booted()
+    {
+        static::updated(function ($cita) {
+            if ($cita->isDirty('estado')) {
+                if ($cita->estado == 'CANCELADA') {
+                    Mail::to($cita->paciente->email)->send(new UpdateCita($cita, 'Cita cancelada'));
+                }
+
+                if ($cita->estado == 'ATENDIDA') {
+                    Mail::to($cita->paciente->email)->send(new UpdateCita($cita, 'Cita atendida'));
+                }
+            }
+        });
+    }
 
     public function paciente()
     {
