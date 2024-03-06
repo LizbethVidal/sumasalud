@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CorreoCita;
+use App\Mail\CorreoCitas;
 use App\Models\Cita;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class CitaController extends Controller
@@ -48,6 +51,8 @@ class CitaController extends Controller
 
         $citas = $citas->paginate(10);
 
+        
+
         return view('modules.citas.index',compact('citas','request'));
     }
 
@@ -88,11 +93,17 @@ class CitaController extends Controller
             $cita->doctor_id = $request->medico;
             $cita->motivo = $request->motivo;
             $cita->save();
+
+            //Enviar correo
+            Mail::to($cita->paciente->email)->send(new CorreoCitas($cita,'Nueva cita'));
+
+
             DB::commit();
             Alert::success('Exito', 'Cita creada correctamente');
             return redirect()->route('citas.index');
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e);
             Alert::error('Error', 'No se ha podido crear la cita');
             return redirect()->back();
         }
@@ -103,7 +114,7 @@ class CitaController extends Controller
      */
     public function show(Cita $cita)
     {
-        //
+        return view('modules.citas.show',compact('cita'));
     }
 
     /**
@@ -119,7 +130,22 @@ class CitaController extends Controller
      */
     public function update(Request $request, Cita $cita)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            if($request->estado == 'CONFIRMADA'){
+                $cita->fecha_hora = Carbon::parse($request->fecha_hora)->format('Y-m-d H:i:s');
+            }
+            $cita->estado = $request->estado;
+            $cita->save();
+            DB::commit();
+            Alert::success('Exito', 'Cita actualizada correctamente');
+            return redirect()->route('citas.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::error('Error', 'No se ha podido actualizar la cita');
+            return redirect()->back();
+        }
     }
 
     /**

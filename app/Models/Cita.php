@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,5 +36,7 @@ class Cita extends Model
         return $this->belongsTo(User::class, 'doctor_id');
     }
 
-
+    public function fechaCita(){
+        return Carbon::parse($this->fecha_hora)->format('d/m/Y H:i');
+    }
 }
