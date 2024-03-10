@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateMedicoRequest;
 use App\Http\Requests\StorageUserRequest;
 use App\Models\Especialidad;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -139,5 +140,14 @@ class MedicosController extends Controller
     {
         $user->delete();
         return redirect()->route('pacientes.index')->with('success','Paciente eliminado correctamente');
+    }
+
+    public function calendario($user_id)
+    {
+        $user = User::find($user_id);
+        $fecha_search = Carbon::now()->subDays(1)->format('Y-m-d');
+        $citas = $user->citas_doctor()->where('fecha_hora','>=',$fecha_search)->where('estado','<>','CANCELADA')->where('estado','<>','ATENDIDA')->get();
+
+        return view('modules.medicos.calendario',compact('user','citas'));
     }
 }

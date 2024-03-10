@@ -12,21 +12,9 @@ class Tratamiento extends Model
     protected $table = 'tratamientos';
 
     protected $fillable = [
-        'paciente_id',
-        'doctor_id',
         'nombre',
-        'fecha_inicio',
-        'fecha_fin',
-        'estado',
         'observaciones',
+        'duracion',
         'tratamiento'
     ];
-
-    public function paciente(){
-        return $this->belongsTo(User::class, 'paciente_id');
-    }
-
-    public function doctor(){
-        return $this->belongsTo(User::class, 'doctor_id');
-    }
 }

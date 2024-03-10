@@ -31,7 +31,8 @@ class User extends Authenticatable
         'rol',
         'tutor_id',
         'foto',
-        'especialidad_id'
+        'especialidad_id',
+        'alergias',
     ];
 
     /**
@@ -52,6 +53,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'alergias' => 'array',
     ];
 
     public static function boot()
@@ -112,15 +114,6 @@ class User extends Authenticatable
         return $this->hasMany(Consulta::class, 'doctor_id');
     }
 
-    public function tratamientos_paciente()
-    {
-        return $this->hasMany(Tratamiento::class, 'paciente_id');
-    }
-
-    public function tratamientos_doctor()
-    {
-        return $this->hasMany(Tratamiento::class, 'doctor_id');
-    }
 
     public function tutor()
     {
@@ -131,15 +124,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(User::class, 'tutor_id');
     }
-
-    public function consultas_urgentes_paciente()
-    {
-        return $this->hasMany(ConsultaUrgente::class, 'paciente_id');
-    }
-
-    public function consultas_urgentes_doctor()
-    {
-        return $this->hasMany(ConsultaUrgente::class, 'doctor_id');
-    }
-
 }

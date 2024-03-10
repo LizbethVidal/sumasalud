@@ -23,6 +23,21 @@ select2();
 import flatpckr from 'flatpickr';
 window.flatpckr = flatpckr;
 
+//fullcalendar
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import bootstrap5Plugin from '@fullcalendar/bootstrap5';
+
+window.Calendar = Calendar;
+window.dayGridPlugin = dayGridPlugin;
+window.interactionPlugin = interactionPlugin;
+window.timeGridPlugin = timeGridPlugin;
+window.listPlugin = listPlugin;
+window.bootstrap5Plugin = bootstrap5Plugin;
+
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

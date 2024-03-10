@@ -26,6 +26,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('busqueda', [App\Http\Controllers\CitaController::class, 'search'])->name('citas.busqueda');
         Route::get('{cita}/videollamada', [App\Http\Controllers\CitaController::class, 'videollamada'])->name('citas.videollamada');
     });
+
+    Route::group(['prefix' => 'medicos'], function () {
+        Route::get('calendario/{medico}', [App\Http\Controllers\MedicosController::class, 'calendario'])->name('medicos.calendario');
+    });
 });
 
 Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['auth','permisos:admin']);
@@ -41,3 +45,7 @@ Route::resource('medicos', App\Http\Controllers\MedicosController::class)->param
 
 Route::resource('citas', App\Http\Controllers\CitaController::class)->except(['show'])->middleware(['auth','permisos:admin,medico']);
     Route::get('citas/{cita}', [App\Http\Controllers\CitaController::class, 'show'])->name('citas.show')->middleware(['auth']);
+
+Route::resource('tratamientos', App\Http\Controllers\TratamientosController::class)->middleware(['auth','permisos:admin,medico']);
+
+Route::resource('consultas', App\Http\Controllers\ConsultasController::class)->middleware(['auth','permisos:admin,medico']);

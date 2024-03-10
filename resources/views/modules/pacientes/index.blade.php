@@ -76,15 +76,36 @@
                                                 </div>
                                             </div>
                                             <div class="card-footer">
-                                                <a href="{{route('pacientes.show', $user->id)}}" class="btn btn-primary">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-                                                <a href="{{route('pacientes.edit', $user->id)}}" class="btn btn-warning">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
-                                                <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
+                                                <div>
+                                                    <a href="{{route('pacientes.show', $user->id)}}" class="btn btn-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <a href="{{route('pacientes.edit', $user->id)}}" class="btn btn-warning">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-secondary" title="Ver mas"  data-bs-toggle="collapse" href="#more-info-{{$user->id}}" role="button" aria-expanded="false" aria-controls="more-info-{{$user->id}}">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                </div>
+                                                <div id="more-info-{{$user->id}}" class="collapse">
+                                                    <div class="d-flex flex-column justify-content-center gap-3 mt-2">
+                                                        <a href="{{route('citas.create', ['paciente_id' => $user->id])}}" class="btn btn-success" title="Crear Cita">
+                                                            <i class="bi bi-calendar-plus"></i> Crear Cita
+                                                        </a>
+                                                        <a href="" class="btn btn-info" title="Ver Médicos">
+                                                            <i class="bi bi-people"></i> Ver Médicos
+                                                        </a>
+                                                        <a href="" class="btn btn-secondary" title="Consulta sin cita">
+                                                            <i class="bi bi-chat"></i> Consulta sin cita
+                                                        </a>
+                                                        <a href="" class="btn btn-primary" title="Historial">
+                                                            <i class="bi bi-journal-text"></i> Historial
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -111,18 +132,56 @@
                                             <td>{{$user->movil}}</td>
                                             <td>{{$user->email}}</td>
                                             <td>
-                                                <a href="{{route('pacientes.show', $user->id)}}" class="btn btn-primary">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-                                                <a href="{{route('pacientes.edit', $user->id)}}" class="btn btn-warning">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
-                                                <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                                <a href="{{route('citas.create', ['paciente_id' => $user->id])}}" class="btn btn-success" title="Crear Cita">
-                                                    <i class="bi bi-calendar-plus"></i>
-                                                </a>
+
+                                                    <a href="{{route('pacientes.show', $user->id)}}" class="btn btn-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <a href="{{route('pacientes.edit', $user->id)}}" class="btn btn-warning">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-secondary" title="Ver mas"  data-bs-toggle="collapse" href="#more-info-{{$user->id}}" role="button" aria-expanded="false" aria-controls="more-info-{{$user->id}}">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                {{-- <div class="mt-2">
+                                                    <a href="{{route('citas.create', ['paciente_id' => $user->id])}}" class="btn btn-success" title="Crear Cita">
+                                                        <i class="bi bi-calendar-plus"></i>
+                                                    </a>
+                                                    <a href="" class="btn btn-info" title="Ver Médicos">
+                                                        <i class="bi bi-people"></i>
+                                                    </a>
+                                                    <a href="" class="btn btn-secondary" title="Consulta sin cita">
+                                                        <i class="bi bi-chat-dots"></i>
+                                                    </a>
+                                                </div> --}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6" id="more-info-{{$user->id}}" class="collapse">
+                                                <div class="d-flex justify-content-center gap-3">
+                                                    <div>
+                                                        <a href="{{route('citas.create', ['paciente_id' => $user->id])}}" class="btn btn-success" title="Crear Cita">
+                                                            <i class="bi bi-calendar-plus"></i> Crear Cita
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="" class="btn btn-info" title="Ver Médicos">
+                                                            <i class="bi bi-people"></i> Ver Médicos
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="" class="btn btn-secondary" title="Consulta sin cita">
+                                                            <i class="bi bi-chat"></i> Consulta sin cita
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="" class="btn btn-primary" title="Historial">
+                                                            <i class="bi bi-journal-text"></i> Historial
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

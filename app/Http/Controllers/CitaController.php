@@ -9,6 +9,7 @@ use App\Models\Cita;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -96,6 +97,7 @@ class CitaController extends Controller
             $cita = new Cita();
             if($request->en_espera == '1'){
                 $cita->estado = 'ESPERA';
+                $cita->fecha_hora =  Carbon::now()->startOfDay()->format('Y-m-d H:i:s');
             }elseif($request->fecha_hora != null){
                 $cita->fecha_hora = Carbon::parse($request->fecha_hora)->format('Y-m-d H:i:s');
                 $cita->estado = 'CONFIRMADA';
@@ -105,6 +107,7 @@ class CitaController extends Controller
             }
             $cita->paciente_id = $request->paciente_id;
             $cita->doctor_id = $request->medico;
+            $cita->user_id = Auth::user()->id;
             $cita->motivo = $request->motivo;
             $cita->save();
 

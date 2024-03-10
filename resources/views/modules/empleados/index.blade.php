@@ -93,6 +93,9 @@
                                             <a href="{{route('medicos.edit', $user->id)}}" class="btn btn-warning">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
+                                            <a href="{{route('medicos.calendario', $user->id)}}" class="btn btn-info">
+                                                <i class="bi bi-calendar"></i>
+                                            </a>
                                             @else
                                             <a href="{{route('empleados.edit', $user->id)}}" class="btn btn-warning">
                                                 <i class="bi bi-pencil"></i>

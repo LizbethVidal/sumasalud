@@ -33,6 +33,18 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card mt-3">
+                    <div class="card-header">{{ __('Consultas') }}</div>
+                    <div class="card-body">
+                        <div>
+                            <div class="d-flex justify-content-start gap-3 flex-column">
+                                <a href="{{ route('consultas.create') }}" class="btn btn-primary">Crear Consulta</a>
+                                <a href="{{ route('consultas.index') }}" class="btn btn-primary">Ver Consultas</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         @endif
         @if(Auth::user()->rol != 'paciente')
@@ -51,10 +63,13 @@
                 </div>
                 <div class="card mt-3">
                     <div class="card-header">
-
+                        Tratamientos
                     </div>
                     <div class="card-body">
-
+                        <div class="d-flex justify-content-start gap-3 flex-column">
+                            <a href="{{ route('tratamientos.create') }}" class="btn btn-primary">Crear Tratamiento</a>
+                            <a href="{{ route('tratamientos.index') }}" class="btn btn-primary">Ver Tratamientos</a>
+                        </div>
                     </div>
                 </div>
             </div>

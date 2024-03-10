@@ -134,11 +134,21 @@
                                 </span>
                                 @endif
                             </div>
+                            <div class="col-12 d-none" id="alergias_list">
+                                <div class="col-12 mt-3">
+                                    <h3>Alergias</h3>
+                                    <div class="row" id="alergias">
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-12 mt-3">
                                 <button type="button" class="btn btn-warning"  data-bs-toggle="modal" data-bs-target="#modal_tutor">
                                     <i class="bi bi-person-plus"></i> Asignar Tutor
                                 </button>
-
+                                <button type="button" class="btn btn-success" onclick="add_alergia()">
+                                    <i class="bi bi-plus"></i> Añadir alergias
+                                </button>
                                 <button class="btn btn-primary" type="submit">
                                     Guardar
                                 </button>
@@ -219,6 +229,36 @@
         $('#tutor_id').val(tutor_id);
         $('#close_modal').click();
     }
+
+    function add_alergia() {
+        let count = $('#alergias').children().length;
+
+        if(count == 0) {
+            $('#alergias_list').removeClass('d-none');
+        }
+
+        var html = '';
+        html += `<div class="col-3 mt-2" id="alergia_${count}">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="alergias[]" placeholder="Alergia">
+                        <button class="btn btn-outline-danger" type="button" onclick="remove_alergia(${count})">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    </div>
+                </div>`;
+        $('#alergias').append(html);
+    }
+
+    function remove_alergia(count) {
+        $(`#alergia_${count}`).remove();
+
+        let children = $('#alergias').children().length;
+
+        if(children == 0) {
+            $('#alergias_list').addClass('d-none');
+        }
+    }
+
 </script>
 
 <script type="module">
