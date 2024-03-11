@@ -95,7 +95,7 @@
                                                         <a href="{{route('citas.create', ['paciente_id' => $user->id])}}" class="btn btn-success" title="Crear Cita">
                                                             <i class="bi bi-calendar-plus"></i> Crear Cita
                                                         </a>
-                                                        <a href="" class="btn btn-info" title="Ver Médicos">
+                                                        <a href="href="{{route('pacientes.medicos_paciente', ['paciente' => $user->id])}}"" class="btn btn-info" title="Ver Médicos">
                                                             <i class="bi bi-people"></i> Ver Médicos
                                                         </a>
                                                         <a href="" class="btn btn-secondary" title="Consulta sin cita">
@@ -167,7 +167,7 @@
                                                         </a>
                                                     </div>
                                                     <div>
-                                                        <a href="" class="btn btn-info" title="Ver Médicos">
+                                                        <a href="{{route('pacientes.medicos_paciente', ['paciente' => $user->id])}}" class="btn btn-info" title="Ver Médicos">
                                                             <i class="bi bi-people"></i> Ver Médicos
                                                         </a>
                                                     </div>

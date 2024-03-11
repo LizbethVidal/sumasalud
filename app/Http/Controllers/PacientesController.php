@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoragePacienteRequest;
 use App\Http\Requests\StorageUserRequest;
 use App\Http\Requests\UpdatePacienteRequest;
+use App\Models\Especialidad;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -154,6 +155,14 @@ class PacientesController extends Controller
         return redirect()->route('pacientes.index')->with('success','Paciente eliminado correctamente');
     }
 
+    public function medicos_paciente($paciente_id)
+    {
+        $user = User::find($paciente_id);
+        $medicos = $user->doctores;
 
+        $especialidades = Especialidad::all();
+
+        return view('modules.pacientes.medicos_paciente',compact('user','medicos','especialidades'));
+    }
 }
 

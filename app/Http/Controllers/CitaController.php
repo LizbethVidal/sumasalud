@@ -120,7 +120,7 @@ class CitaController extends Controller
             return redirect()->route('citas.index');
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
+            
             Alert::error('Error', 'No se ha podido crear la cita');
             return redirect()->back();
         }

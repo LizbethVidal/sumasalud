@@ -26,7 +26,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('busqueda', [App\Http\Controllers\CitaController::class, 'search'])->name('citas.busqueda');
         Route::get('{cita}/videollamada', [App\Http\Controllers\CitaController::class, 'videollamada'])->name('citas.videollamada');
     });
-
+    Route::group(['prefix' => 'pacientes'], function () {
+        Route::get('medicos_paciente/{paciente}', [App\Http\Controllers\PacientesController::class, 'medicos_paciente'])->name('pacientes.medicos_paciente');
+    });
     Route::group(['prefix' => 'medicos'], function () {
         Route::get('calendario/{medico}', [App\Http\Controllers\MedicosController::class, 'calendario'])->name('medicos.calendario');
     });

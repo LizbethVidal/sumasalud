@@ -32,7 +32,7 @@
                         backgroundColor: '{{$cita->estado == 'CONFIRMADA' ? '#28a745' : '#ffc107'}}'
                     },
                     @endforeach
-                ],
+                ]
             });
             calendar.render();
         });
