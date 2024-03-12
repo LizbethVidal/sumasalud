@@ -107,6 +107,27 @@
                                     </span>
                                 @endif
                             </div>
+
+                            <div class="col-12 @if(empty($user->alergias)) d-none @endif" id="alergias_list">
+                                <div class="col-12 mt-3">
+                                    <h3>Alergias</h3>
+                                    <div class="row" id="alergias">
+                                        @if($user->alergias)
+                                            @foreach($user->alergias as $alergia)
+                                                <div class="col-3 mt-2" id="alergia_{{$loop->index}}">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="alergias[]" value="{{$alergia}}" placeholder="Alergia">
+                                                        <button class="btn btn-outline-danger" type="button" onclick="remove_alergia({{$loop->index}})">
+                                                            <i class="bi bi-x"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-12 mt-3">
                                 <a href="{{route('pacientes.index')}}" class="btn btn-outline-dark">
                                     <i class="bi bi-arrow-left-circle"></i> Volver
@@ -115,7 +136,9 @@
                                     <button type="button" class="btn btn-warning"  data-bs-toggle="modal" data-bs-target="#modal_tutor">
                                         <i class="bi bi-person-plus"></i> Asignar Tutor
                                     </button>
-
+                                    <button type="button" class="btn btn-success" onclick="add_alergia()">
+                                        <i class="bi bi-plus"></i> Añadir alergias
+                                    </button>
                                 @endif
                                 <button type="submit" class="btn btn-primary">
                                     <i class="bi bi-save"></i> Guardar
@@ -191,6 +214,35 @@
             $('#tutor_id').val(tutor_id);
             $('#close_modal').click();
         }
+
+        function add_alergia() {
+        let count = $('#alergias').children().length;
+
+        if(count == 0) {
+            $('#alergias_list').removeClass('d-none');
+        }
+
+        var html = '';
+        html += `<div class="col-3 mt-2" id="alergia_${count}">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="alergias[]" placeholder="Alergia">
+                        <button class="btn btn-outline-danger" type="button" onclick="remove_alergia(${count})">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    </div>
+                </div>`;
+        $('#alergias').append(html);
+    }
+
+    function remove_alergia(count) {
+        $(`#alergia_${count}`).remove();
+
+        let children = $('#alergias').children().length;
+
+        if(children == 0) {
+            $('#alergias_list').addClass('d-none');
+        }
+    }
     </script>
 
     <script type="module">

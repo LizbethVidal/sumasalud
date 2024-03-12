@@ -5,7 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header">Consulta de {{$consulta->paciente->name}}</h5>
+                <div class="card-header">
+                    <h5>Consulta de {{$consulta->paciente->name}}</h5>
+                    <a href="{{route('pacientes.show', $consulta->paciente->id)}}" class="btn btn-primary" target="_blank">
+                        <i class="bi bi-eye"></i> Ver paciente
+                    </a>
+                </div>
                 <div class="card-body">
                     <form method="POST" action="{{route('consultas.update',['consulta' => $consulta->id])}}">
                         @csrf

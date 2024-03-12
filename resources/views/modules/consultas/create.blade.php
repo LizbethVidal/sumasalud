@@ -5,7 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header">Consulta de {{$cita->paciente->name}}</h5>
+                <div class="card-header">
+                    <h5>Consulta de {{$cita->paciente->name}}</h5>
+                    <a href="{{route('pacientes.show', $cita->paciente->id)}}" class="btn btn-primary" target="_blank">
+                        <i class="bi bi-eye"></i> Ver paciente
+                    </a>
+                </div>
                 <div class="card-body">
                     <form method="POST" action="{{route('consultas.store')}}">
                         @csrf
@@ -58,6 +63,11 @@
                         </div>
                     </form>
                 </div>
+            </div>
+            <div class="mt-3">
+                <a href="{{route('consultas.index')}}" class="btn btn-outline-dark">
+                    <i class="bi bi-arrow-left-circle"></i> Volver
+                </a>
             </div>
         </div>
     </div>

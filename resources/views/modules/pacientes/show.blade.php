@@ -68,6 +68,40 @@
                     </div>
                 </div>
             </div>
+
+                <div class="col-12 my-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Historial Médico</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Descripción</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($user->consultas_paciente as $historial)
+                                            <tr>
+                                                <td>{{ $historial->created_at }}</td>
+                                                <td>{{ $historial->observaciones_paciente }}</td>
+                                                <td>
+                                                    <a href="{{ route('consultas.show', $historial->id) }}" class="btn btn-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <div class="col-md-6 mt-1">
                 <div class="card">
                     <div class="card-header">
@@ -95,39 +129,23 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mt-1">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Historial Médico</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Fecha</th>
-                                        <th>Descripción</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($user->consultas_paciente as $historial)
-                                        <tr>
-                                            <td>{{ $historial->created_at }}</td>
-                                            <td>{{ $historial->observaciones_paciente }}</td>
-                                            <td>
-                                                <a href="{{ route('consultas.show', $historial->id) }}" class="btn btn-primary">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+
+            @if($user->alergias)
+                <div class="col-md-6 mt-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Alergias</h5>
+                        </div>
+                        <div class="card-body">
+                            @foreach ($user->alergias as $alergia)
+                                <div class="btn btn-danger" role="alert">
+                                    {{ $alergia }}
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 @endsection
