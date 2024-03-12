@@ -32,12 +32,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'medicos'], function () {
         Route::get('calendario/{medico}', [App\Http\Controllers\MedicosController::class, 'calendario'])->name('medicos.calendario');
     });
+
+    Route::group(['prefix' => 'tratamientos'], function () {
+        Route::get('busqueda', [App\Http\Controllers\TratamientosController::class, 'search'])->name('tratamientos.busqueda');
+    });
 });
 
 Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['auth','permisos:admin']);
 
-Route::resource('pacientes', App\Http\Controllers\PacientesController::class)->parameters(['pacientes' => 'user'])->except(['show'])->middleware(['auth','permisos:admin']);
+Route::resource('pacientes', App\Http\Controllers\PacientesController::class)->parameters(['pacientes' => 'user'])->except(['show,index'])->middleware(['auth','permisos:admin']);
     Route::get('pacientes/{user}', [App\Http\Controllers\PacientesController::class, 'show'])->name('pacientes.show')->middleware(['auth','permisos:admin,medico']);
+    Route::get('pacientes', [App\Http\Controllers\PacientesController::class, 'index'])->name('pacientes.index')->middleware(['auth','permisos:admin,medico']);
 
 Route::resource('empleados', App\Http\Controllers\EmpleadosController::class)->parameters(['empleados' => 'user'])->middleware(['auth','permisos:admin']);
 
@@ -46,8 +51,15 @@ Route::resource('especialidades', App\Http\Controllers\EspecialidadesController:
 Route::resource('medicos', App\Http\Controllers\MedicosController::class)->parameters(['medicos' => 'user'])->middleware(['auth','permisos:admin,medico']);
 
 Route::resource('citas', App\Http\Controllers\CitaController::class)->except(['show'])->middleware(['auth','permisos:admin,medico']);
-    Route::get('citas/{cita}', [App\Http\Controllers\CitaController::class, 'show'])->name('citas.show')->middleware(['auth']);
+Route::get('citas/{cita}', [App\Http\Controllers\CitaController::class, 'show'])->name('citas.show')->middleware(['auth']);
 
 Route::resource('tratamientos', App\Http\Controllers\TratamientosController::class)->middleware(['auth','permisos:admin,medico']);
 
-Route::resource('consultas', App\Http\Controllers\ConsultasController::class)->middleware(['auth','permisos:admin,medico']);
+Route::resource('consultas', App\Http\Controllers\ConsultasController::class)->except(['create,update'])->middleware(['auth','permisos:admin,medico']);
+
+Route::group(['prefix' => 'consultas'], function () {
+    Route::get('create/{cita}', [App\Http\Controllers\ConsultasController::class, 'create'])->name('consultas.create')->middleware(['auth','permisos:medico']);
+    Route::post('store/', [App\Http\Controllers\ConsultasController::class, 'store'])->name('consultas.store')->middleware(['auth','permisos:medico']);
+    Route::get('edit/{consulta}', [App\Http\Controllers\ConsultasController::class, 'edit'])->name('consultas.edit')->middleware(['auth','permisos:medico']);
+    Route::put('update/{consulta}', [App\Http\Controllers\ConsultasController::class, 'update'])->name('consultas.update')->middleware(['auth','permisos:medico']);
+});

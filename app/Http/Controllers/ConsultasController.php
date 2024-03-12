@@ -2,25 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cita;
+use App\Models\Consulta;
 use App\Models\Consultas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ConsultasController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $consultas = Consulta::query();
+
+        if(Auth()->user()->rol == 'medico'){
+            $consultas = $consultas->where('doctor_id',Auth()->user()->id);
+        }
+
+        $consultas = $consultas->paginate(10);
+
+        return view('modules.consultas.index', compact('consultas', 'request'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($cita_id)
     {
-        //
+        $cita = Cita::find($cita_id);
+
+        return view('modules.consultas.create', compact('cita'));
     }
 
     /**
@@ -28,37 +42,69 @@ class ConsultasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $consulta = new Consulta();
+            $consulta->fill($request->all());
+            $consulta->doctor_id = Auth()->user()->id;
+            $consulta->save();
+
+            $cita = Cita::find($request->cita_id);
+            $cita->estado = 'ATENDIDA';
+            $cita->save();
+
+            DB::commit();
+            Alert::success('Consulta creada correctamente');
+            return redirect()->route('citas.index')->with('success', 'Consulta creada correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::error('Error al crear la consulta');
+            return redirect()->back()->with('error', 'Error al crear la consulta');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Consultas $consultas)
+    public function show(Consulta $consulta)
     {
-        //
+        return view('modules.consultas.show', compact('consulta'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Consultas $consultas)
+    public function edit(Consulta $consulta)
     {
-        //
+        return view('modules.consultas.edit', compact('consulta'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Consultas $consultas)
+    public function update(Request $request, Consulta $consulta)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $consulta->fill($request->all());
+            $consulta->save();
+
+            DB::commit();
+            Alert::success('Consulta actualizada correctamente');
+            return redirect()->route('consultas.index')->with('success', 'Consulta actualizada correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::error('Error al actualizar la consulta');
+            return redirect()->back()->with('error', 'Error al actualizar la consulta');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Consultas $consultas)
+    public function destroy(Consulta $consulta)
     {
         //
     }

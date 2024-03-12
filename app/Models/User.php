@@ -114,6 +114,15 @@ class User extends Authenticatable
         return $this->hasMany(Consulta::class, 'doctor_id');
     }
 
+    public function solicitudes_paciente()
+    {
+        return $this->hasMany(Solicitud::class, 'paciente_id');
+    }
+
+    public function solicitudes_doctor()
+    {
+        return $this->hasMany(Solicitud::class, 'doctor_id');
+    }
 
     public function tutor()
     {

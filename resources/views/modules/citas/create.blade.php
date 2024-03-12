@@ -24,7 +24,7 @@
                                     <select name="medico" id="medico" class="form-control @if($errors->has('medico')) is-invalid @endif" required>
                                         <option value="">Seleccione un médico</option>
                                         @foreach($medicos as $medico)
-                                            <option value="{{$medico->id}}"  {{$paciente->doctor_principal()?->id == $medico->id ? 'selected' : ''}}>{{$medico->name}} - {{$medico->especialidad?->nombre}}</option>
+                                            <option value="{{$medico->id}}"  {{($paciente->doctor_principal()?->id == $medico->id || Auth::user()->rol == 'medico') ? 'selected' : ''}}>{{$medico->name}} - {{$medico->especialidad?->nombre}}</option>
                                         @endforeach
                                     </select>
                                     @if($errors->has('medico'))

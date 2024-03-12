@@ -78,16 +78,14 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Fecha</th>
-                                        <th>Hora</th>
+                                        <th>Fecha y hora</th>
                                         <th>Estado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($user->citas_paciente as $cita)
                                         <tr>
-                                            <td>{{ $cita->fecha }}</td>
-                                            <td>{{ $cita->hora }}</td>
+                                            <td>{{ $cita->fecha_hora }}</td>
                                             <td>{{ $cita->estado }}</td>
                                         </tr>
                                     @endforeach
@@ -109,13 +107,19 @@
                                     <tr>
                                         <th>Fecha</th>
                                         <th>Descripción</th>
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($user->tratamientos_paciente as $historial)
+                                    @foreach($user->consultas_paciente as $historial)
                                         <tr>
-                                            <td>{{ $historial->fecha }}</td>
-                                            <td>{{ $historial->descripcion }}</td>
+                                            <td>{{ $historial->created_at }}</td>
+                                            <td>{{ $historial->observaciones_paciente }}</td>
+                                            <td>
+                                                <a href="{{ route('consultas.show', $historial->id) }}" class="btn btn-primary">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

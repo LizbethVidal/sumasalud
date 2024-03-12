@@ -17,7 +17,7 @@ class Consulta extends Model
         'doctor_id',
         'observaciones_paciente',
         'diagnostico',
-        'tramamiento_id',
+        'tratamiento_id',
         'cita_id'
     ];
 

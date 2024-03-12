@@ -23,6 +23,10 @@ class CitaController extends Controller
     {
         $citas = Cita::query();
 
+        if(Auth()->user()->rol == 'medico'){
+            $citas = $citas->where('doctor_id',Auth()->user()->id);
+        }
+
         if($request->name != ""){
             $citas = $citas->whereHas('paciente',function($query) use ($request){
                 $query->where('name','like','%'.$request->name.'%');
@@ -81,9 +85,15 @@ class CitaController extends Controller
             return redirect()->back();
         }
 
-        $medicos = User::where('rol','medico')->get();
-        $paciente = User::find($request->paciente_id);
-        return view('modules.citas.create',compact('paciente','medicos','request'));
+        if(Auth()->user()->rol == 'medico'){
+            $medicos = User::where('id',Auth()->user()->id)->get();
+            $paciente = User::find($request->paciente_id);
+            return view('modules.citas.create',compact('paciente','medicos','request'));
+        }else{
+            $medicos = User::where('rol','medico')->get();
+            $paciente = User::find($request->paciente_id);
+            return view('modules.citas.create',compact('paciente','medicos','request'));
+        }
     }
 
     /**
@@ -120,7 +130,7 @@ class CitaController extends Controller
             return redirect()->route('citas.index');
         } catch (\Exception $e) {
             DB::rollBack();
-            
+
             Alert::error('Error', 'No se ha podido crear la cita');
             return redirect()->back();
         }

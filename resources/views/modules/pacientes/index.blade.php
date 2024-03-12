@@ -98,9 +98,6 @@
                                                         <a href="href="{{route('pacientes.medicos_paciente', ['paciente' => $user->id])}}"" class="btn btn-info" title="Ver Médicos">
                                                             <i class="bi bi-people"></i> Ver Médicos
                                                         </a>
-                                                        <a href="" class="btn btn-secondary" title="Consulta sin cita">
-                                                            <i class="bi bi-chat"></i> Consulta sin cita
-                                                        </a>
                                                         <a href="" class="btn btn-primary" title="Historial">
                                                             <i class="bi bi-journal-text"></i> Historial
                                                         </a>
@@ -169,11 +166,6 @@
                                                     <div>
                                                         <a href="{{route('pacientes.medicos_paciente', ['paciente' => $user->id])}}" class="btn btn-info" title="Ver Médicos">
                                                             <i class="bi bi-people"></i> Ver Médicos
-                                                        </a>
-                                                    </div>
-                                                    <div>
-                                                        <a href="" class="btn btn-secondary" title="Consulta sin cita">
-                                                            <i class="bi bi-chat"></i> Consulta sin cita
                                                         </a>
                                                     </div>
                                                     <div>

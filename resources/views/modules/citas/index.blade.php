@@ -129,14 +129,22 @@
                                         <a href="{{route('citas.show', $cita->id)}}" class="btn btn-primary">
                                             <i class="bi bi-eye"></i>
                                         </a>
+                                        @if($cita->estado == 'CONFIRMADA')
+                                            <a class="btn btn-success" href="{{ route('consultas.create', ['cita' => $cita->id]) }}">
+                                                <i class="bi bi-chat"></i>
+                                            </a>
+                                        @endif
                                         @if($cita->estado == 'ESPERA')
                                             {{-- GENERAR VIDEOLLAMADA --}}
                                             @if(empty($cita->enlace))
                                                 <a class="btn btn-purple" href="{{route('citas.videollamada', $cita->id)}}">
                                                     <i class="bi bi-camera-video"></i>
                                                 </a>
+                                            @else
+                                                <a class="btn btn-success" href="{{ route('consultas.create', ['cita' => $cita->id]) }}">
+                                                    <i class="bi bi-chat"></i>
+                                                </a>
                                             @endif
-                                            
                                         @endif
                                     </td>
                                 </tr>

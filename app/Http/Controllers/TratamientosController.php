@@ -112,4 +112,11 @@ class TratamientosController extends Controller
             return redirect()->back()->with('error', 'Error al eliminar el tratamiento');
         }
     }
+
+    public function search(Request $request)
+    {
+        $tratamientos = Tratamiento::where('nombre', 'like', '%' . $request->search . '%')->get();
+
+        return response()->json(['data' => $tratamientos, 'status' => 'success']);
+    }
 }

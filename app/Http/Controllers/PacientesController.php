@@ -22,6 +22,12 @@ class PacientesController extends Controller
     {
         $pacientes = User::where('rol','paciente');
 
+        if(Auth()->user()->rol == 'medico'){
+            $pacientes = $pacientes->whereHas('doctores',function($query){
+                $query->where('doctor_id',Auth()->user()->id);
+            });
+        }
+
         if($request->name != ""){
             $pacientes = $pacientes->where('name','like','%'.$request->name.'%');
         }
