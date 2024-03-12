@@ -90,7 +90,15 @@ class CitaController extends Controller
             $paciente = User::find($request->paciente_id);
             return view('modules.citas.create',compact('paciente','medicos','request'));
         }else{
-            $medicos = User::where('rol','medico')->get();
+            $medicos = User::where('rol','medico')->where(function($query) use($request){
+                if($request->especialidad_id != null){
+                    $query->where('especialidad_id',$request->especialidad_id);
+                }else{
+                    $query->whereHas('especialidad',function($query){
+                        $query->where('nombre','General');
+                    });
+                }
+            })->get();
             $paciente = User::find($request->paciente_id);
             return view('modules.citas.create',compact('paciente','medicos','request'));
         }

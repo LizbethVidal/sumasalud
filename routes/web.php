@@ -28,9 +28,12 @@ Route::group(['middleware' => ['auth']], function () {
     });
     Route::group(['prefix' => 'pacientes'], function () {
         Route::get('medicos_paciente/{paciente}', [App\Http\Controllers\PacientesController::class, 'medicos_paciente'])->name('pacientes.medicos_paciente');
+        Route::post('asignar_medico', [App\Http\Controllers\PacientesController::class, 'asignar_medico'])->name('pacientes.asignar_medico');
+        Route::post('desasignar_medico/{paciente}/{doctor}', [App\Http\Controllers\PacientesController::class, 'desasignar_medico'])->name('pacientes.desasignar_medico');
     });
     Route::group(['prefix' => 'medicos'], function () {
         Route::get('calendario/{medico}', [App\Http\Controllers\MedicosController::class, 'calendario'])->name('medicos.calendario');
+        Route::get('get_medicos', [App\Http\Controllers\MedicosController::class, 'get_medicos'])->name('medicos.get_medicos');
     });
 
     Route::group(['prefix' => 'tratamientos'], function () {
@@ -56,6 +59,10 @@ Route::get('citas/{cita}', [App\Http\Controllers\CitaController::class, 'show'])
 Route::resource('tratamientos', App\Http\Controllers\TratamientosController::class)->middleware(['auth','permisos:admin,medico']);
 
 Route::resource('consultas', App\Http\Controllers\ConsultasController::class)->except(['create,update'])->middleware(['auth','permisos:admin,medico']);
+
+Route::resource('solicitudes', App\Http\Controllers\SolicitudController::class)->except(['create'])->middleware(['auth','permisos:admin,medico']);
+
+Route::get('solicitudes/create/{paciente}', [App\Http\Controllers\SolicitudController::class, 'create'])->name('solicitudes.create')->middleware(['auth','permisos:admin,medico']);
 
 Route::group(['prefix' => 'consultas'], function () {
     Route::get('create/{cita}', [App\Http\Controllers\ConsultasController::class, 'create'])->name('consultas.create')->middleware(['auth','permisos:medico']);

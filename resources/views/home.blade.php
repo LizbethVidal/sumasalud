@@ -12,9 +12,10 @@
                         <div>
                             <div class="d-flex justify-content-start gap-3 flex-column">
                                 @if(Auth::user()->rol == 'admin' )
-                                    <a href="{{ route('users.index') }}" class="btn btn-primary">Ver Usuarios</a>
+                                    {{-- <a href="{{ route('users.index') }}" class="btn btn-primary">Ver Usuarios</a> --}}
                                     <a href="{{ route('empleados.index')}}" class="btn btn-primary"> Ver Empleados</a>
                                     <a href="{{ route('empleados.index')}}?rol=medico" class="btn btn-primary"> Ver Médicos</a>
+                                    <a href="{{ route('solicitudes.index')}}" class="btn btn-primary"> Ver Solicitudes {{$solicitudes_count == 0 ? '' : "($solicitudes_count)"}}</a>
                                 @endif
                                 <a href="{{ route('pacientes.index')}}" class="btn btn-primary"> Ver Pacientes</a>
                             </div>

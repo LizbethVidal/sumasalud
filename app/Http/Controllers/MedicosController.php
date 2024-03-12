@@ -150,4 +150,12 @@ class MedicosController extends Controller
 
         return view('modules.medicos.calendario',compact('user','citas'));
     }
+
+    public function get_medicos(Request $request)
+    {
+        $medicos = User::where('rol','medico')->whereHas('especialidad',function($query) use ($request){
+            $query->where('especialidad_id',$request->especialidad_id);
+        })->get();
+        return response()->json(['medicos' => $medicos, 'status' => 'success']);
+    }
 }

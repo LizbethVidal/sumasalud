@@ -7,6 +7,7 @@ use App\Http\Requests\StorageUserRequest;
 use App\Http\Requests\UpdatePacienteRequest;
 use App\Models\Especialidad;
 use App\Models\User;
+use App\Models\UserDoctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -169,6 +170,33 @@ class PacientesController extends Controller
         $especialidades = Especialidad::all();
 
         return view('modules.pacientes.medicos_paciente',compact('user','medicos','especialidades'));
+    }
+
+    public function asignar_medico(Request $request)
+    {
+        $existe = UserDoctor::where('paciente_id',$request->paciente_id)->where('doctor_id',$request->doctor_id)->first();
+
+        if($existe){
+            Alert::error('El medico ya esta asignado a este paciente');
+            return redirect()->route('pacientes.medicos_paciente',$request->paciente_id)->with('error','El medico ya esta asignado a este paciente');
+        }
+
+        $user_doctor = new UserDoctor();
+        $user_doctor->paciente_id = $request->paciente_id;
+        $user_doctor->doctor_id = $request->doctor_id;
+        $user_doctor->save();
+
+        Alert::success('Medico asignado correctamente');
+        return redirect()->route('pacientes.medicos_paciente',$request->paciente_id)->with('success','Medico asignado correctamente');
+    }
+
+    public function desasignar_medico($paciente_id,$doctor_id)
+    {
+        $user_doctor = UserDoctor::where('paciente_id',$paciente_id)->where('doctor_id',$doctor_id)->first();
+        $user_doctor->delete();
+
+        Alert::success('Medico desasignado correctamente');
+        return redirect()->route('pacientes.medicos_paciente',$paciente_id)->with('success','Medico desasignado correctamente');
     }
 }
 

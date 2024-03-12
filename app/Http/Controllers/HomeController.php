@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Solicitud;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        $solicitudes_count = Solicitud::where('estado', 'PENDIENTE')->count();
+
+        return view('home', compact('solicitudes_count'));
     }
 }
