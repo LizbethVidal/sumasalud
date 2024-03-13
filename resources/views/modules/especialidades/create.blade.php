@@ -12,7 +12,7 @@
                 <form method="POST" action="{{route('especialidades.store')}}" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col--md-6">
                             <label for="nombre">Nombre</label>
                             <input type="text" name="nombre" id="name" class="form-control @if($errors->has('nombre')) is-invalid @endif" placeholder="Nombre" required value="{{old('nombre')}}">
                             @if($errors->has('nombre'))
@@ -29,6 +29,11 @@
                     </div>
                 </form>
             </div>
+        </div>
+        <div class="mt-3">
+            <a href="{{route('especialidades.index')}}" class="btn btn-outline-dark">
+                <i class="bi bi-arrow-left-circle"></i> Volver
+            </a>
         </div>
     </div>
 </div>

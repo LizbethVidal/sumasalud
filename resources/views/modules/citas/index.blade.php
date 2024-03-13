@@ -67,91 +67,151 @@
                             </div>
                         </div>
                     </form>
-
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th scope="col">Fecha y hora</th>
-                                    <th scope="col">Estado</th>
-                                    <th scope="col">Paciente</th>
-                                    <th scope="col">Médico</th>
-                                    <th scope="col">Motivo</th>
-                                    <th scope="col">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($citas as $cita)
-                                @if($cita->estado == 'ESPERA')
-                                <tr class="table-success">
-                                    @elseif($cita->estado == 'ATENDIDA')
-                                <tr class="table-warning">
-                                    @elseif($cita->estado == 'CANCELADA')
-                                <tr class="table-danger">
-                                    @else
-                                <tr class="table-info">
-                                    @endif
-                                    @if($cita->estado == 'ESPERA')
-                                    <td>
-                                        @if(empty($cita->enlace))
-                                            <span class="badge bg-warning text-dark">Pendiente cita por videollamada</span>
+                    @if(!$agent->isMobile())
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">Fecha y hora</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col">Paciente</th>
+                                        <th scope="col">Médico</th>
+                                        <th scope="col">Motivo</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($citas as $cita)
+                                        @if($cita->estado == 'ESPERA')
+                                            <tr class="table-success">
+                                        @elseif($cita->estado == 'ATENDIDA')
+                                            <tr class="table-warning">
+                                        @elseif($cita->estado == 'CANCELADA')
+                                            <tr class="table-danger">
                                         @else
-                                            <a href="{{$cita->enlace}}" class="badge bg-success" target="_blank">
-                                                <i class="bi bi-camera-video"></i> Acceder a la videollamada
-                                            </a>
-                                        @endif
-                                    </td>
-                                    @else
-                                    <td>{{$cita->fechaCita()}}</td>
-                                    @endif
-                                    <td>
-                                        <div class="d-flex flex-column">
-                                            @switch($cita->estado)
-                                                @case('ATENDIDA')
-                                                    <button type="button" class="btn btn-warning">Atendida</span>
-                                                    @break
-                                                @case('CANCELADA')
-                                                    <button type="button" class="btn btn-danger">Cancelada</span>
-                                                    @break
-                                                @case('CONFIRMADA')
-                                                    <button type="button" class="btn btn-info" onclick="cambiarEstado({{$cita->id}})">Confirmada</span>
-                                                    @break
-                                                @case('ESPERA')
-                                                    <button type="button" class="btn btn-success" onclick="cambiarEstado({{$cita->id}})">En espera</span>
-                                                    @break
-                                            @endswitch
-                                        </div>
-                                    </td>
-                                    <td>{{$cita->paciente->name}}</td>
-                                    <td>{{$cita->doctor->name}}</td>
-                                    <td>{{$cita->motivo}}</td>
-                                    <td>
-                                        <a href="{{route('citas.show', $cita->id)}}" class="btn btn-primary">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        @if($cita->estado == 'CONFIRMADA')
-                                            <a class="btn btn-success" href="{{ route('consultas.create', ['cita' => $cita->id]) }}">
-                                                <i class="bi bi-chat"></i>
-                                            </a>
+                                            <tr class="table-info">
                                         @endif
                                         @if($cita->estado == 'ESPERA')
-                                            {{-- GENERAR VIDEOLLAMADA --}}
+                                        <td>
                                             @if(empty($cita->enlace))
-                                                <a class="btn btn-purple" href="{{route('citas.videollamada', $cita->id)}}">
-                                                    <i class="bi bi-camera-video"></i>
-                                                </a>
+                                                <span class="badge bg-warning text-dark">Pendiente cita por videollamada</span>
                                             @else
+                                                <a href="{{$cita->enlace}}" class="badge bg-success" target="_blank">
+                                                    <i class="bi bi-camera-video"></i> Acceder a la videollamada
+                                                </a>
+                                            @endif
+                                        </td>
+                                        @else
+                                        <td>{{$cita->fechaCita()}}</td>
+                                        @endif
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                @switch($cita->estado)
+                                                    @case('ATENDIDA')
+                                                        <button type="button" class="btn btn-warning">Atendida</span>
+                                                        @break
+                                                    @case('CANCELADA')
+                                                        <button type="button" class="btn btn-danger">Cancelada</span>
+                                                        @break
+                                                    @case('CONFIRMADA')
+                                                        <button type="button" class="btn btn-info" onclick="cambiarEstado({{$cita->id}})">Confirmada</span>
+                                                        @break
+                                                    @case('ESPERA')
+                                                        <button type="button" class="btn btn-success" onclick="cambiarEstado({{$cita->id}})">En espera</span>
+                                                        @break
+                                                @endswitch
+                                            </div>
+                                        </td>
+                                        <td>{{$cita->paciente->name}}</td>
+                                        <td>{{$cita->doctor->name}}</td>
+                                        <td>{{$cita->motivo}}</td>
+                                        <td>
+                                            <a href="{{route('citas.show', $cita->id)}}" class="btn btn-primary">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            @if($cita->estado == 'CONFIRMADA')
                                                 <a class="btn btn-success" href="{{ route('consultas.create', ['cita' => $cita->id]) }}">
                                                     <i class="bi bi-chat"></i>
                                                 </a>
                                             @endif
+                                            @if($cita->estado == 'ESPERA')
+                                                {{-- GENERAR VIDEOLLAMADA --}}
+                                                @if(empty($cita->enlace))
+                                                    <a class="btn btn-purple" href="{{route('citas.videollamada', $cita->id)}}">
+                                                        <i class="bi bi-camera-video"></i>
+                                                    </a>
+                                                @else
+                                                    <a class="btn btn-success" href="{{ route('consultas.create', ['cita' => $cita->id]) }}">
+                                                        <i class="bi bi-chat"></i>
+                                                    </a>
+                                                @endif
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        @foreach($citas as $cita)
+                            @if($cita->estado == 'ESPERA')
+                                <div class="card mb-3 bg-success">
+                            @elseif($cita->estado == 'ATENDIDA')
+                                <div class="card mb-3 bg-warning">
+                            @elseif($cita->estado == 'CANCELADA')
+                                <div class="card mb-3 bg-danger">
+                            @else
+                                <div class="card mb-3 bg-info">
+                            @endif
+                                <div class="card-body">
+                                    <h5 class="card-title"><strong>Cita #</strong>{{$cita->id}}</h5>
+                                    <p class="card-text"><strong>Fecha y hora: </strong>{{$cita->fechaCita()}}</p>
+                                    <p class="card-text"><strong>Paciente: </strong>{{$cita->paciente->name}}</p>
+                                    <p class="card-text"><strong>Médico: </strong>{{$cita->doctor->name}}</p>
+                                    <p class="card-text"><strong>Motivo: </strong>{{$cita->motivo}}</p>
+
+                                    <div class="d-flex flex-column mb-2">
+                                        @switch($cita->estado)
+                                            @case('ATENDIDA')
+                                                <button type="button" class="btn btn-warning">Atendida</span>
+                                                @break
+                                            @case('CANCELADA')
+                                                <button type="button" class="btn btn-danger">Cancelada</span>
+                                                @break
+                                            @case('CONFIRMADA')
+                                                <button type="button" class="btn btn-info" onclick="cambiarEstado({{$cita->id}})">Confirmada</span>
+                                                @break
+                                            @case('ESPERA')
+                                                <button type="button" class="btn btn-success" onclick="cambiarEstado({{$cita->id}})">En espera</span>
+                                                @break
+                                        @endswitch
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex justify-content-start gap-3">
+                                    <a href="{{route('citas.show', $cita->id)}}" class="btn btn-primary">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    @if($cita->estado == 'CONFIRMADA')
+                                        <a class="btn btn-success" href="{{ route('consultas.create', ['cita' => $cita->id]) }}">
+                                            <i class="bi bi-chat"></i>
+                                        </a>
+                                    @endif
+                                    @if($cita->estado == 'ESPERA')
+                                        {{-- GENERAR VIDEOLLAMADA --}}
+                                        @if(empty($cita->enlace))
+                                            <a class="btn btn-purple" href="{{route('citas.videollamada', $cita->id)}}">
+                                                <i class="bi bi-camera-video"></i>
+                                            </a>
+                                        @else
+                                            <a class="btn btn-success" href="{{ route('consultas.create', ['cita' => $cita->id]) }}">
+                                                <i class="bi bi-chat"></i>
+                                            </a>
                                         @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
                     <div class="d-flex d-md-block justify-content-center">
                         {{$citas->appends(request()->input())->links()}}
                     </div>

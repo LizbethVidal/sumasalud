@@ -58,57 +58,122 @@
 
                             </div>
                         </form>
-                        <table class="table table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>DNI</th>
-                                    <th>Teléfono</th>
-                                    <th>ROL</th>
-                                    <th>Correo</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($empleados as $user)
+                        @if(!$agent->isMobile())
+                            <table class="table table-striped">
+                                <thead class="table-dark">
                                     <tr>
-                                        <td>{{$user->id}}</td>
-                                        <td>{{$user->name}}</td>
-                                        <td>{{$user->dni}}</td>
-                                        <td>{{$user->movil}}</td>
-                                        <td>{{$user->rol}}</td>
-                                        <td>{{$user->email}}</td>
-                                        <td>
-                                            @if($user->rol == 'medico')
-                                            <a href="{{route('medicos.show', $user->id)}}" class="btn btn-primary">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            @else
-                                            <a href="{{route('empleados.show', $user->id)}}" class="btn btn-primary">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            @endif
-                                            @if($user->rol == 'medico')
-                                            <a href="{{route('medicos.edit', $user->id)}}" class="btn btn-warning">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            <a href="{{route('medicos.calendario', $user->id)}}" class="btn btn-info">
-                                                <i class="bi bi-calendar"></i>
-                                            </a>
-                                            @else
-                                            <a href="{{route('empleados.edit', $user->id)}}" class="btn btn-warning">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            @endif
-                                            <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>DNI</th>
+                                        <th>Teléfono</th>
+                                        <th>ROL</th>
+                                        <th>Correo</th>
+                                        <th>Acciones</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach($empleados as $user)
+                                        <tr>
+                                            <td>{{$user->id}}</td>
+                                            <td>{{$user->name}}</td>
+                                            <td>{{$user->dni}}</td>
+                                            <td>{{$user->movil}}</td>
+                                            <td>{{$user->rol}}</td>
+                                            <td>{{$user->email}}</td>
+                                            <td>
+                                                @if($user->rol == 'medico')
+                                                <a href="{{route('medicos.show', $user->id)}}" class="btn btn-primary">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                @else
+                                                <a href="{{route('empleados.show', $user->id)}}" class="btn btn-primary">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                @endif
+                                                @if($user->rol == 'medico')
+                                                <a href="{{route('medicos.edit', $user->id)}}" class="btn btn-warning">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <a href="{{route('medicos.calendario', $user->id)}}" class="btn btn-info">
+                                                    <i class="bi bi-calendar"></i>
+                                                </a>
+                                                @else
+                                                <a href="{{route('empleados.edit', $user->id)}}" class="btn btn-warning">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                @endif
+                                                <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            @foreach($empleados as $user)
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <div class="d-flex justify-content-center img-thumbnail" style="width: 100px; height: 100px; overflow: hidden; border-radius: 50%;">
+                                                    <img src="{{ $user->foto ? asset('storage/' . $user->foto) : asset('storage/users/default.png') }}" alt="Foto de Perfil" class="" style="object-fit: cover; width: 100%; height: 100%;">
+                                                </div>
+                                            </div>
+                                            <div class="col-7">
+                                                <h5 class="card-title">{{$user->name}}</h5>
+                                                <h6 class="card-subtitle mb-2 text-muted">{{$user->rol}}</h6>
+                                                <p class="card-text">{{$user->email}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex gap-3">
+                                            @if($user->rol == 'medico')
+                                                <div>
+                                                    <a href="{{route('medicos.show', $user->id)}}" class="btn btn-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <div>
+                                                    <a href="{{route('empleados.show', $user->id)}}" class="btn btn-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </div>
+
+                                            @endif
+                                            @if($user->rol == 'medico')
+                                                <div>
+                                                    <a href="{{route('medicos.edit', $user->id)}}" class="btn btn-warning">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                </div>
+                                                <div>
+                                                    <a href="{{route('medicos.calendario', $user->id)}}" class="btn btn-info">
+                                                        <i class="bi bi-calendar"></i>
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <div>
+                                                    <a href="{{route('empleados.edit', $user->id)}}" class="btn btn-warning">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            <div>
+                                                <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                        <div class="d-flex justify-content-center">
+                            {{$empleados->links()}}
+                        </div>
                     </div>
                 </div>
                 <div class="mt-3">
