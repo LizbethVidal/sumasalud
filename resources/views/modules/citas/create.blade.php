@@ -13,6 +13,7 @@
                     <div class="card-body">
                         <form method="POST" action="{{route('citas.store')}}">
                             @csrf
+                            <input type="hidden" name="solicitud_id" value="{{$request->solicitud_id}}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="paciente_id">Paciente</label>

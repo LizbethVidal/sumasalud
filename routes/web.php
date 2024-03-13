@@ -62,7 +62,7 @@ Route::resource('tratamientos', App\Http\Controllers\TratamientosController::cla
 
 Route::resource('consultas', App\Http\Controllers\ConsultasController::class)->except(['create,update'])->middleware(['auth','permisos:admin,medico']);
 
-Route::resource('solicitudes', App\Http\Controllers\SolicitudController::class)->except(['create'])->middleware(['auth','permisos:admin,medico']);
+Route::resource('solicitudes', App\Http\Controllers\SolicitudController::class)->parameters(['solicitudes' => 'solicitud'])->except(['create'])->middleware(['auth','permisos:admin,medico']);
 
 Route::get('solicitudes/create/{paciente}', [App\Http\Controllers\SolicitudController::class, 'create'])->name('solicitudes.create')->middleware(['auth','permisos:admin,medico']);
 

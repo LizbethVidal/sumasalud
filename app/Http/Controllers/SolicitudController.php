@@ -14,11 +14,17 @@ class SolicitudController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $solicitudes = Solicitud::query();
 
-        $solicitudes = $solicitudes->where('estado', 'PENDIENTE');
+        if($request->canceladas){
+            $solicitudes = $solicitudes->where('estado', 'CANCELADA');
+        }elseif($request->atendidas){
+            $solicitudes = $solicitudes->where('estado', 'ATENDIDA');
+        }else{
+            $solicitudes = $solicitudes->where('estado', 'PENDIENTE');
+        }
 
         $solicitudes = $solicitudes->paginate(10);
 
@@ -80,7 +86,21 @@ class SolicitudController extends Controller
      */
     public function update(Request $request, Solicitud $solicitud)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $solicitud->fill($request->all());
+            $solicitud->save();
+
+            DB::commit();
+            Alert::success('Solicitud atendida correctamente');
+            return redirect()->route('solicitudes.index')->with('success', 'Solicitud atendida correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::error('Error al atender la solicitud');
+            dd($e);
+            return redirect()->back()->with('error', 'Error al atender la solicitud');
+        }
     }
 
     /**

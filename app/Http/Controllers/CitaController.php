@@ -6,6 +6,7 @@ use App\Mail\CorreoCita;
 use App\Mail\CorreoCitas;
 use App\Mail\VideoLLamadaCita;
 use App\Models\Cita;
+use App\Models\Solicitud;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -129,6 +130,11 @@ class CitaController extends Controller
             $cita->motivo = $request->motivo;
             $cita->save();
 
+            if($request->solicitud_id != null){
+                $solicitud = Solicitud::find($request->solicitud_id);
+                $solicitud->estado = 'ATENDIDA';
+                $solicitud->save();
+            }
             //Enviar correo
             Mail::to($cita->paciente->email)->send(new CorreoCitas($cita,'Nueva cita'));
 
