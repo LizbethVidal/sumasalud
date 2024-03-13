@@ -80,12 +80,14 @@
                                                     <a href="{{route('pacientes.show', $user->id)}}" class="btn btn-primary">
                                                         <i class="bi bi-eye"></i>
                                                     </a>
-                                                    <a href="{{route('pacientes.edit', $user->id)}}" class="btn btn-warning">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </a>
-                                                    <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
+                                                    @if(Auth::user()->hasRole('admin'))
+                                                        <a href="{{route('pacientes.edit', $user->id)}}" class="btn btn-warning">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </a>
+                                                        <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    @endif
                                                     <button type="button" class="btn btn-outline-secondary" title="Ver mas"  data-bs-toggle="collapse" href="#more-info-{{$user->id}}" role="button" aria-expanded="false" aria-controls="more-info-{{$user->id}}">
                                                         <i class="bi bi-three-dots"></i>
                                                     </button>
@@ -95,9 +97,11 @@
                                                         <a href="{{route('citas.create', ['paciente_id' => $user->id])}}" class="btn btn-success" title="Crear Cita">
                                                             <i class="bi bi-calendar-plus"></i> Crear Cita
                                                         </a>
-                                                        <a href="{{route('pacientes.medicos_paciente', ['paciente' => $user->id])}}" class="btn btn-info" title="Ver Médicos">
-                                                            <i class="bi bi-people"></i> Ver Médicos
-                                                        </a>
+                                                        @if(Auth::user()->hasRole('admin'))
+                                                            <a href="{{route('pacientes.medicos_paciente', ['paciente' => $user->id])}}" class="btn btn-info" title="Ver Médicos">
+                                                                <i class="bi bi-people"></i> Ver Médicos
+                                                            </a>
+                                                        @endif
                                                         <a href="{{route('solicitudes.create', ['paciente' => $user->id])}}" class="btn btn-secondary" title="Solicitar cita sin cita">
                                                             <i class="bi bi-chat-dots"></i> Solicitar especialidad
                                                         </a>
@@ -133,12 +137,14 @@
                                                     <a href="{{route('pacientes.show', $user->id)}}" class="btn btn-primary">
                                                         <i class="bi bi-eye"></i>
                                                     </a>
-                                                    <a href="{{route('pacientes.edit', $user->id)}}" class="btn btn-warning">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </a>
-                                                    <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
+                                                    @if(Auth::user()->hasRole('admin'))
+                                                        <a href="{{route('pacientes.edit', $user->id)}}" class="btn btn-warning">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </a>
+                                                        <button type="button" class="btn btn-danger" onclick="confirmar_delete({{$user->id}})">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    @endif
                                                     <button type="button" class="btn btn-outline-secondary" title="Ver mas"  data-bs-toggle="collapse" href="#more-info-{{$user->id}}" role="button" aria-expanded="false" aria-controls="more-info-{{$user->id}}">
                                                         <i class="bi bi-three-dots"></i>
                                                     </button>
@@ -163,11 +169,13 @@
                                                             <i class="bi bi-calendar-plus"></i> Crear Cita
                                                         </a>
                                                     </div>
-                                                    <div>
-                                                        <a href="{{route('pacientes.medicos_paciente', ['paciente' => $user->id])}}" class="btn btn-info" title="Ver Médicos">
-                                                            <i class="bi bi-people"></i> Ver Médicos
-                                                        </a>
-                                                    </div>
+                                                    @if(Auth::user()->hasRole('admin'))
+                                                        <div>
+                                                            <a href="{{route('pacientes.medicos_paciente', ['paciente' => $user->id])}}" class="btn btn-info" title="Ver Médicos">
+                                                                <i class="bi bi-people"></i> Ver Médicos
+                                                            </a>
+                                                        </div>
+                                                    @endif
                                                     <div>
                                                         <a href="{{route('solicitudes.create', ['paciente' => $user->id])}}" class="btn btn-secondary" title="Solicitar cita sin cita">
                                                             <i class="bi bi-chat-dots"></i> Solicitar especialidad

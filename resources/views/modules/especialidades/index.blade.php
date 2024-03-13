@@ -32,7 +32,9 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Nombre</th>
-                                <th>Acciones</th>
+                                @if(Auth::user()->hasRole('admin'))
+                                    <th>Acciones</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -40,14 +42,16 @@
                                 <tr>
                                     <td>{{$especialidad->id}}</td>
                                     <td>{{$especialidad->nombre}}</td>
-                                    <td>
-                                        <a href="{{route('especialidades.edit', $especialidad->id)}}" class="btn btn-warning">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <button type="submit" class="btn btn-danger" onclick="confirmar_delete({{$especialidad->id}})">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
+                                    @if(Auth::user()->hasRole('admin'))
+                                        <td>
+                                            <a href="{{route('especialidades.edit', $especialidad->id)}}" class="btn btn-warning">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <button type="submit" class="btn btn-danger" onclick="confirmar_delete({{$especialidad->id}})">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

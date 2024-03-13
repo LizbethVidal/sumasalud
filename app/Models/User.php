@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Mail\AltaUsuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
@@ -13,7 +14,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -132,5 +133,10 @@ class User extends Authenticatable
     public function personas_cargo()
     {
         return $this->hasMany(User::class, 'tutor_id');
+    }
+
+    public function hasRole($role)
+    {
+        return $this->rol === $role;
     }
 }

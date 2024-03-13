@@ -49,7 +49,9 @@ Route::resource('pacientes', App\Http\Controllers\PacientesController::class)->p
 
 Route::resource('empleados', App\Http\Controllers\EmpleadosController::class)->parameters(['empleados' => 'user'])->middleware(['auth','permisos:admin']);
 
-Route::resource('especialidades', App\Http\Controllers\EspecialidadesController::class)->parameters(['especialidades' => 'especialidad'])->middleware(['auth','permisos:admin']);
+Route::resource('especialidades', App\Http\Controllers\EspecialidadesController::class)->parameters(['especialidades' => 'especialidad'])->except(['edit,create'])->middleware(['auth','permisos:admin,medico']);
+Route::get('especialidades/create', [App\Http\Controllers\EspecialidadesController::class, 'create'])->name('especialidades.create')->middleware(['auth','permisos:admin']);
+Route::get('especialidades/{especialidad}/edit', [App\Http\Controllers\EspecialidadesController::class, 'edit'])->name('especialidades.edit')->middleware(['auth','permisos:admin']);
 
 Route::resource('medicos', App\Http\Controllers\MedicosController::class)->parameters(['medicos' => 'user'])->middleware(['auth','permisos:admin,medico']);
 
