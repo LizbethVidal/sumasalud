@@ -154,15 +154,7 @@
                         </div>
                     @else
                         @foreach($citas as $cita)
-                            @if($cita->estado == 'ESPERA')
-                                <div class="card mb-3 bg-success">
-                            @elseif($cita->estado == 'ATENDIDA')
-                                <div class="card mb-3 bg-warning">
-                            @elseif($cita->estado == 'CANCELADA')
-                                <div class="card mb-3 bg-danger">
-                            @else
-                                <div class="card mb-3 bg-info">
-                            @endif
+                            <div class="card mb-3">
                                 <div class="card-body">
                                     <h5 class="card-title"><strong>Cita #</strong>{{$cita->id}}</h5>
                                     <p class="card-text"><strong>Fecha y hora: </strong>{{$cita->fechaCita()}}</p>

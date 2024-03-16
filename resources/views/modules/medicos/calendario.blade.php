@@ -19,6 +19,7 @@
             var calendar = new Calendar(calendarEl, {
                 plugins: [listPlugin, bootstrap5Plugin, dayGridPlugin],
                 initialView: 'dayGridMonth',
+                themeSystem: 'bootstrap5',
                 locale: 'es',
                 eventDisplay: 'block',
                 businessHours: true,
@@ -29,7 +30,8 @@
                         title: '{{$cita->paciente->name}}',
                         start: '{{$cita->fecha_hora}}',
                         description: '{{$cita->observaciones}}',
-                        backgroundColor: '{{$cita->estado == 'CONFIRMADA' ? '#28a745' : '#ffc107'}}'
+                        backgroundColor: '{{$cita->estado == 'CONFIRMADA' ? '#28a745' : '#ffc107'}}',
+                        url: '{{route('citas.show',$cita->id)}}'
                     },
                     @endforeach
                 ]

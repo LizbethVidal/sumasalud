@@ -18,6 +18,11 @@
                                     <a href="{{ route('solicitudes.index')}}" class="btn btn-primary"> Ver Solicitudes {{$solicitudes_count == 0 ? '' : "($solicitudes_count)"}}</a>
                                 @endif
                                 <a href="{{ route('pacientes.index')}}" class="btn btn-primary"> Ver Pacientes</a>
+                                @if(Auth::user()->rol == 'medico' )
+                                    <a href="{{route('medicos.calendario',Auth::user()->id)}}" class="btn btn-primary">
+                                        <i class="bi bi-calendar"></i> Ver Calendario
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
