@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('medicos_paciente/{paciente}', [App\Http\Controllers\PacientesController::class, 'medicos_paciente'])->name('pacientes.medicos_paciente');
         Route::post('asignar_medico', [App\Http\Controllers\PacientesController::class, 'asignar_medico'])->name('pacientes.asignar_medico');
         Route::post('desasignar_medico/{paciente}/{doctor}', [App\Http\Controllers\PacientesController::class, 'desasignar_medico'])->name('pacientes.desasignar_medico');
+        Route::get('historial/{paciente}', [App\Http\Controllers\PacientesController::class, 'historial'])->name('pacientes.historial');
     });
     Route::group(['prefix' => 'medicos'], function () {
         Route::get('calendario/{medico}', [App\Http\Controllers\MedicosController::class, 'calendario'])->name('medicos.calendario');

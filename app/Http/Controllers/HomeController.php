@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Solicitud;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+        if(Auth::user()->rol == 'paciente'){
+            return view('modules.pacientes.home');
+        }
 
         $solicitudes_count = Solicitud::where('estado', 'PENDIENTE')->count();
 

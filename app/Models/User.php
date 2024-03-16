@@ -139,4 +139,9 @@ class User extends Authenticatable
     {
         return $this->rol === $role;
     }
+
+    public function proxima_cita()
+    {
+        return $this->citas_paciente()->where('fecha_hora', '>=', now())->whereRaw('estado != "CANCELADA" and estado != "ATENDIDA"')->orderBy('fecha_hora', 'asc')->first();
+    }
 }

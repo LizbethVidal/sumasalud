@@ -198,5 +198,13 @@ class PacientesController extends Controller
         Alert::success('Medico desasignado correctamente');
         return redirect()->route('pacientes.medicos_paciente',$paciente_id)->with('success','Medico desasignado correctamente');
     }
+
+    public function historial($paciente_id)
+    {
+        $user = User::find($paciente_id);
+        $consultas = $user->consultas_paciente;
+
+        return view('modules.pacientes.historial',compact('user','consultas'));
+    }
 }
 

@@ -63,45 +63,107 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <a href="{{ route('pacientes.index') }}" class="btn btn-secondary">Volver</a>
+                    <div class="card-footer d-flex justify-content-between">
+                        <div>
+                            <a href="{{ route('pacientes.index') }}" class="btn btn-secondary">Volver</a>
+                        </div>
+                        <div>
+                            @if(Auth::user()->hasRole('admin'))
+                                <a href="{{ route('pacientes.edit', $user->id) }}" class="btn btn-warning">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="{{route('pacientes.medicos_paciente', ['paciente' => $user->id])}}" class="btn btn-info" title="Ver Médicos">
+                                    <i class="bi bi-people"></i>
+                                </a>
+                            @endif
+                            <a href="{{route('citas.create', ['paciente_id' => $user->id])}}" class="btn btn-success" title="Crear Cita">
+                                <i class="bi bi-calendar-plus"></i>
+                            </a>
+                            <a href="{{route('solicitudes.create', ['paciente' => $user->id])}}" class="btn btn-secondary" title="Solicitar cita sin cita">
+                                <i class="bi bi-chat-dots"></i>
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             </div>
 
+            @if(count($user->personas_cargo) > 0)
                 <div class="col-12 my-2">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Historial Médico</h5>
+                            <h5 class="card-title">Personas a Cargo</h5>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Fecha</th>
-                                            <th>Descripción</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($user->consultas_paciente as $historial)
-                                            <tr>
-                                                <td>{{ $historial->created_at }}</td>
-                                                <td>{{ $historial->observaciones_paciente }}</td>
-                                                <td>
-                                                    <a href="{{ route('consultas.show', $historial->id) }}" class="btn btn-primary">
-                                                        <i class="bi bi-eye"></i>
+                            <div class="row">
+                            @foreach($user->personas_cargo as $persona)
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title">{{ $persona->name }}</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                {{-- Acciones del paciente --}}
+                                                <a href="{{ route('pacientes.show', $persona->id) }}" class="btn btn-primary">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                @if(Auth::user()->hasRole('admin'))
+                                                    <a href="{{ route('pacientes.edit', $persona->id) }}" class="btn btn-warning">
+                                                        <i class="bi bi-pencil"></i>
                                                     </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                                    <a href="{{route('pacientes.medicos_paciente', ['paciente' => $persona->id])}}" class="btn btn-info" title="Ver Médicos">
+                                                        <i class="bi bi-people"></i>
+                                                    </a>
+                                                @endif
+                                                <a href="{{route('citas.create', ['paciente_id' => $persona->id])}}" class="btn btn-success" title="Crear Cita">
+                                                    <i class="bi bi-calendar-plus"></i>
+                                                </a>
+                                                <a href="{{route('solicitudes.create', ['paciente' => $persona->id])}}" class="btn btn-secondary" title="Solicitar cita sin cita">
+                                                    <i class="bi bi-chat-dots"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
+            @endif
+            <div class="col-12 my-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Historial Médico</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Descripción</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($user->consultas_paciente as $historial)
+                                        <tr>
+                                            <td>{{ $historial->created_at }}</td>
+                                            <td>{{ $historial->observaciones_paciente }}</td>
+                                            <td>
+                                                <a href="{{ route('consultas.show', $historial->id) }}" class="btn btn-primary">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-6 mt-1">
                 <div class="card">
                     <div class="card-header">
