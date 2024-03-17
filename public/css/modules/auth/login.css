@@ -122,8 +122,7 @@ form {
         justify-content: center;
     }
 
-    .input-group {
-        flex-direction: column;
+    .input-group input {
         max-width: 300px;
     }
 }
