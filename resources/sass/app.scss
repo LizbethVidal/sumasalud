@@ -22,7 +22,7 @@
 @fullcalendar/timegrid/main.css;
 @fullcalendar/list/main.css;
 
-input:not(.form-check-input), textarea, select {
+input:not(.form-check-input),input:not(.login-form), textarea, select {
     background-color: #ffffff !important;
 }
 

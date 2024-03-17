@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --primary-color: 0, 0%, 100%; /*White, #ffffff*/
+    --secondary-color: 0, 0%, 80%; /*Grey, #D9D9D9*/
+    --third-color: 195, 31%, 55%; /*Blueish, #6a9fb0*/
+}
+
+body {
+    margin: 0;
+}
+
+.full-screen {
+    background-image: url('/images/fondo.jpg');
+    height: 100vh;
+    width: 100wh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    --color: hsl(var(--secondary-color), .6); /*shadow around login box*/
+    background-color: #6A9FB0; /*Color of login box*/
+    box-shadow: 0 0 15px 0 var(--primary-color);
+    padding: 40px 30px;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 20px;
+}
+
+.login-title { /*Title Text Welcome, Chef!*/
+    margin: 0;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 2.5rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.input-group label {
+    color: #9C9C9C; /*Email & Password color*/
+}
+
+.input-group input {
+    font-size: 1.25rem;
+    padding: .5em;
+    background-color: hsl(var(--primary-color), .5); /*text box*/
+    border: none;
+    outline: none;
+    border-radius: .25rem;
+    color: #6A9FB0; /*input text color*/
+}
+
+.input-group .message {
+    display: none;
+    font-size: .75rem;
+}
+
+.input-group.success .message,
+.input-group.error .message {
+    display: block;
+}
+
+.input-group.success .message {
+    color: hsl(var(--success-color));
+}
+
+.input-group.error .message {
+    color: hsl(var(--error-color));
+}
+
+#login-button {
+    width: fit-content; /*makes button smaller*/
+    margin: auto; /*center button to container*/
+    padding: .5em 1em;
+    font-size: 1.5rem;
+    color: #ffffff; /*Submit Text*/
+    background-color: hsl(var(--primary-color), .25);
+    border: 1px solid hsl(var(--primary-color));
+    border-radius: .25em;
+    outline: none;
+    cursor: pointer;
+}
+
+#login-button:hover,
+#login-button:focus {
+    background-color: hsl(var(--primary-color), .4);
+}
+
+#msg {
+    display: none;
+}
