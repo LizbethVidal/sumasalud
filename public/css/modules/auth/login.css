@@ -121,4 +121,8 @@ form {
     .full-screen {
         justify-content: center;
     }
+
+    .input-group {
+        flex-direction: column;
+    }
 }
