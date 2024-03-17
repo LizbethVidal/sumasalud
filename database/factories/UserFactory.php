@@ -35,6 +35,7 @@ class UserFactory extends Factory
             'dni' => $faker->unique()->dni(),
             'movil' => $faker->unique()->phoneNumber(),
             'rol' => 'paciente',
+            'especialidad_id' => \App\Models\Especialidad::all()->random()->id,
         ];
     }
 

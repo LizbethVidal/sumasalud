@@ -21,7 +21,7 @@
     @include('sweetalert::alert')
     <div id="app">
         @auth
-            <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <nav class="navbar navbar-expand-md shadow-sm">
                 <div class="container">
                     <a class="navbar-brand" href="{{ route('home') }}">
                         <img src="/images/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">

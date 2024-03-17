@@ -13,7 +13,7 @@
                             <a href="{{route('users.create')}}" class="btn btn-success">
                                 <i class="bi bi-plus"></i> Nuevo Empleado
                             </a>
-                            <a href="{{route('medicos.create')}}" class="btn btn-outline-dark">
+                            <a href="{{route('medicos.create')}}" class="btn btn-outline-light">
                                 <i class="bi bi-plus"></i> Nuevo Médico
                             </a>
                         </div>

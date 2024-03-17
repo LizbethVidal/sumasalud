@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-8">
-            <h1 class="text-center">Crear Usuario</h1>
+            <h1 class="text-center">Nueva especialidad</h1>
             <hr>
         </div>
         <div class="card">

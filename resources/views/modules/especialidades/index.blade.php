@@ -50,12 +50,47 @@
                                             <button type="submit" class="btn btn-danger" onclick="confirmar_delete({{$especialidad->id}})">
                                                 <i class="bi bi-trash"></i>
                                             </button>
+                                            <button type="button" class="btn btn-outline-secondary" title="Ver mas"  data-bs-toggle="collapse" href="#more-info-{{$especialidad->id}}" role="button" aria-expanded="false" aria-controls="more-info-{{$especialidad->id}}">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
                                         </td>
                                     @endif
                                 </tr>
+                                <tr class="collapse" id="more-info-{{$especialidad->id}}">
+                                    <td colspan="3">
+                                        @if($especialidad->doctores->count() > 0)
+                                            <h5>Doctores</h5>
+                                            <table class="table table-striped">
+                                                <thead class="table-dark">
+                                                    <th>ID</th>
+                                                    <th>Nombre</th>
+                                                    <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($especialidad->doctores as $medico)
+                                                        <tr>
+                                                            <td>{{$medico->id}}</td>
+                                                            <td>{{$medico->name}}</td>
+                                                            <td>
+                                                                <a href="{{route('medicos.show', $medico->id)}}" class="btn btn-outline-secondary">
+                                                                    <i class="bi bi-eye"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        @else
+                                            <h5>No hay doctores asignados</h5>
+                                        @endif
+                                    </td>
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center">
+                        {{$especialidades->links()}}
+                    </div>
                 </div>
             </div>
             <div class="mt-3">

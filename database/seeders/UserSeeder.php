@@ -19,19 +19,20 @@ class UserSeeder extends Seeder
                 'email' => 'admin@admin.com',
                 'password' => bcrypt('admin'),
                 'rol' => 'admin',
+                'dni' => '12345678A',
             ]
             );
 
         //Generar 10 usuarios doctores
 
         \App\Models\User::factory(10)->create([
-            'rol' => 'doctor',
-            'especialidad_id' => \App\Models\Especialidad::all()->random()->id
+            'rol' => 'medico',
         ]);
 
         //Generar 10 usuarios pacientes
         \App\Models\User::factory(10)->create([
             'rol' => 'paciente',
+            'especialidad_id' => null
         ]);
     }
 }

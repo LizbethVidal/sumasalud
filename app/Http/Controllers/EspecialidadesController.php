@@ -22,7 +22,7 @@ class EspecialidadesController extends Controller
             $especialidades->where('nombre', 'like', '%' . $request->nombre . '%');
         }
 
-        $especialidades = $especialidades->get();
+        $especialidades = $especialidades->paginate(10);
 
         return view('modules.especialidades.index', compact('especialidades','request'));
     }
@@ -124,5 +124,11 @@ class EspecialidadesController extends Controller
             DB::rollBack();
             return response()->json(['mensaje' => 'Ha ocurrido un error'],400);
         }
+    }
+
+    public function medicos(Especialidad $especialidad)
+    {
+        $medicos = $especialidad->doctores;
+        return view('modules.especialidades.medicos', compact('medicos','especialidad'));
     }
 }

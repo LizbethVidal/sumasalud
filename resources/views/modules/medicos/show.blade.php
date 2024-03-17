@@ -51,6 +51,12 @@
                                             <input type="text" class="form-control" id="dni" value="{{ $user->dni }}" readonly>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="especialidad">Especialidad</label>
+                                            <input type="text" class="form-control" id="especialidad" value="{{ $user->especialidad->nombre }}" readonly>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
