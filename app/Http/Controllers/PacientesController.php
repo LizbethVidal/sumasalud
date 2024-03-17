@@ -9,6 +9,7 @@ use App\Models\Especialidad;
 use App\Models\User;
 use App\Models\UserDoctor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -87,6 +88,7 @@ class PacientesController extends Controller
 
             DB::commit();
             Alert::success('Paciente creado correctamente');
+
             return redirect()->route('pacientes.index')->with('success', 'Paciente creado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -112,8 +114,8 @@ class PacientesController extends Controller
             $query->where('nombre','General');
         })->get();
 
-        $medicos = $medicos->filter(function($medico){
-            return $medico->pacientes->count() < 5;
+        $medicos = $medicos->filter(function($medico) use ($user){
+            return $medico->pacientes->count() < 5 || $medico->id == $user->doctor_principal()?->id;
         });
 
         return view('modules.pacientes.edit',compact('user','medicos'));
@@ -205,6 +207,32 @@ class PacientesController extends Controller
         $consultas = $user->consultas_paciente;
 
         return view('modules.pacientes.historial',compact('user','consultas'));
+    }
+
+    public function citas($paciente_id)
+    {
+        $user = User::find($paciente_id);
+        $citas = $user->citas_paciente;
+
+        return view('modules.pacientes.citas',compact('user','citas'));
+    }
+
+    public function solicitar_cita(Request $request, $paciente_id = null)
+    {
+        if($paciente_id != null){
+            $paciente = User::find($paciente_id);
+        }else{
+            $paciente = Auth::user();
+        }
+
+        $medicos = [$paciente->doctor_principal()];
+
+        if($paciente->doctor_principal() == null){
+            Alert::error('Error', 'Aún no se le ha asignado un médico, por favor contacte con su centro de salud');
+            return redirect()->route('home');
+        }
+
+        return view('modules.citas.create',compact('paciente','medicos','request'));
     }
 }
 

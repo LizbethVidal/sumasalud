@@ -38,7 +38,13 @@
                                     {{-- Switch checkbox --}}
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="en_espera" name="en_espera" value="1">
-                                        <label class="form-check-label" for="en_espera">Poner en espera</label>
+                                        <label class="form-check-label" for="en_espera">
+                                            @if(Auth::user()->hasRole('paciente'))
+                                                Solicitar cita por videoconsulta
+                                            @else
+                                                Asignar cita por videoconsulta
+                                            @endif
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-center" id="fecha_hora_content">

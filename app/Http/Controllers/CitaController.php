@@ -111,7 +111,6 @@ class CitaController extends Controller
     public function store(Request $request)
     {
         DB::beginTransaction();
-
         try {
             $cita = new Cita();
             if($request->en_espera == '1'){
@@ -141,6 +140,9 @@ class CitaController extends Controller
 
             DB::commit();
             Alert::success('Exito', 'Cita creada correctamente');
+            if(Auth::user()->hasRole('paciente')){
+                return redirect()->route('home');
+            }
             return redirect()->route('citas.index');
         } catch (\Exception $e) {
             DB::rollBack();

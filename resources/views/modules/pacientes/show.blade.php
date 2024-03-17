@@ -76,12 +76,14 @@
                                     <i class="bi bi-people"></i>
                                 </a>
                             @endif
-                            <a href="{{route('citas.create', ['paciente_id' => $user->id])}}" class="btn btn-success" title="Crear Cita">
+                            <a href="{{ route('pacientes.solicitar_cita', ['paciente_id' => $user->id])}}" class="btn btn-success" title="Crear Cita">
                                 <i class="bi bi-calendar-plus"></i>
                             </a>
-                            <a href="{{route('solicitudes.create', ['paciente' => $user->id])}}" class="btn btn-secondary" title="Solicitar cita sin cita">
-                                <i class="bi bi-chat-dots"></i>
-                            </a>
+                            @if(Auth::user()->hasRole('medico'))
+                                <a href="{{route('solicitudes.create', ['paciente' => $user->id])}}" class="btn btn-secondary" title="Solicitar especialista">
+                                    <i class="bi bi-chat-dots"></i>
+                                </a>
+                            @endif
                         </div>
 
                     </div>
@@ -97,31 +99,32 @@
                         <div class="card-body">
                             <div class="row">
                             @foreach($user->personas_cargo as $persona)
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="card-title">{{ $persona->name }}</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                {{-- Acciones del paciente --}}
-                                                <a href="{{ route('pacientes.show', $persona->id) }}" class="btn btn-primary">
-                                                    <i class="bi bi-eye"></i>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">{{ $persona->name }}</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            {{-- Acciones del paciente --}}
+                                            <a href="{{ route('pacientes.show', $persona->id) }}" class="btn btn-primary">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            @if(Auth::user()->hasRole('admin'))
+                                                <a href="{{ route('pacientes.edit', $persona->id) }}" class="btn btn-warning">
+                                                    <i class="bi bi-pencil"></i>
                                                 </a>
-                                                @if(Auth::user()->hasRole('admin'))
-                                                    <a href="{{ route('pacientes.edit', $persona->id) }}" class="btn btn-warning">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </a>
-                                                    <a href="{{route('pacientes.medicos_paciente', ['paciente' => $persona->id])}}" class="btn btn-info" title="Ver Médicos">
-                                                        <i class="bi bi-people"></i>
-                                                    </a>
-                                                @endif
-                                                <a href="{{route('citas.create', ['paciente_id' => $persona->id])}}" class="btn btn-success" title="Crear Cita">
-                                                    <i class="bi bi-calendar-plus"></i>
+                                                <a href="{{route('pacientes.medicos_paciente', ['paciente' => $persona->id])}}" class="btn btn-info" title="Ver Médicos">
+                                                    <i class="bi bi-people"></i>
                                                 </a>
-                                                <a href="{{route('solicitudes.create', ['paciente' => $persona->id])}}" class="btn btn-secondary" title="Solicitar cita sin cita">
+                                            @endif
+                                            <a href="{{ route('pacientes.solicitar_cita', ['paciente_id' => $persona->id])}}" class="btn btn-success" title="Crear Cita">
+                                                <i class="bi bi-calendar-plus"></i>
+                                            </a>
+                                            @if(Auth::user()->hasRole('medico'))
+                                                <a href="{{route('solicitudes.create', ['paciente' => $persona->id])}}" class="btn btn-secondary" title="Solicitar especilista">
                                                     <i class="bi bi-chat-dots"></i>
                                                 </a>
-                                            </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -179,7 +182,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($user->citas_paciente as $cita)
+                                    @foreach($user->historial_citas() as $cita)
                                         <tr>
                                             <td>{{ $cita->fecha_hora }}</td>
                                             <td>{{ $cita->estado }}</td>

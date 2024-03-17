@@ -144,4 +144,9 @@ class User extends Authenticatable
     {
         return $this->citas_paciente()->where('fecha_hora', '>=', now())->whereRaw('estado != "CANCELADA" and estado != "ATENDIDA"')->orderBy('fecha_hora', 'asc')->first();
     }
+
+    public function historial_citas()
+    {
+        return $this->citas_paciente()->orderBy('fecha_hora', 'desc')->get();
+    }
 }
