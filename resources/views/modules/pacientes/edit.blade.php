@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mt-2 profile_img">
-                                    <img id="preview" src="{{ $user->foto ? asset('storage/' . $user->foto) : asset('storage/users/default.png') }}" alt="Foto de Perfil" class="img-thumbnail" style="max-width: 200px;">
+                                    <img id="preview" src="{{ $user->foto ? asset('storage/' . $user->foto) : '/images/default.png' }}" alt="Foto de Perfil" class="img-thumbnail" style="max-width: 200px;">
                                 </div>
                                 <div class="mt-2">
                                     <input type="file" name="foto" id="foto" class="form-control @if($errors->has('foto')) is-invalid @endif" accept="image/*" onchange="previewFile()">

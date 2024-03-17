@@ -16,7 +16,7 @@
                         <div class="row">
                             <div class="col-md-2 d-flex justify-content-center">
                                 <div class="mt-2 profile_img">
-                                    <img id="preview" src="{{ $user->foto ? asset('storage/' . $user->foto) : asset('storage/users/default.png') }}" alt="Foto de Perfil" class="img-thumbnail" style="max-width: 200px;">
+                                    <img id="preview" src="{{ $user->foto ? asset('storage/' . $user->foto) : '/images/default.png' }}" alt="Foto de Perfil" class="img-thumbnail" style="max-width: 200px;">
                                 </div>
                             </div>
                             <div class="col-md-10">

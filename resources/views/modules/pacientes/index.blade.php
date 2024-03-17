@@ -55,7 +55,7 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-6">
-                                                        <img src="{{ $user->foto ? asset('storage/' . $user->foto) : asset('storage/users/default.png') }}" alt="Foto de Perfil" class="img-thumbnail" style="max-width: 100px;">
+                                                        <img src="{{ $user->foto ? asset('storage/' . $user->foto) : '/images/default.png' }}" alt="Foto de Perfil" class="img-thumbnail" style="max-width: 100px;">
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="row">

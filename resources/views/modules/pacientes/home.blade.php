@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between gap-3 align-items-center flex-md-row flex-column">
                     <div>
-                        <img src="{{ Auth::user()->foto ? asset('storage/' . Auth::user()->foto) : asset('storage/users/default.png') }}" alt="Foto de perfil" class="img-thumbnail" width="100px">
+                        <img src="{{ Auth::user()->foto ? asset('storage/' . Auth::user()->foto) : '/images/default.png' }}" alt="Foto de perfil" class="img-thumbnail" width="100px">
                     </div>
                     <div >
                         <h3 class="card-title">Bienvenido {{ Auth::user()->name }}</h3>
@@ -39,7 +39,7 @@
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <div class="text-center">
-                                                                <img src="{{ $persona->foto ? asset('storage/' . $persona->foto) : asset('storage/users/default.png') }}" alt="Foto de perfil" class="img-thumbnail" width="100px">
+                                                                <img src="{{ $persona->foto ? asset('storage/' . $persona->foto) : '/images/default.png' }}" alt="Foto de perfil" class="img-thumbnail" width="100px">
                                                                 <p>{{ $persona->name }}</p>
                                                                 <a href="{{ route('pacientes.show', $persona->id) }}" class="btn btn-primary">Ver perfil</a>
                                                             </div>

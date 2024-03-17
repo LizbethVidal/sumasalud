@@ -117,7 +117,7 @@
                                         <div class="row">
                                             <div class="col-5">
                                                 <div class="d-flex justify-content-center img-thumbnail" style="width: 100px; height: 100px; overflow: hidden; border-radius: 50%;">
-                                                    <img src="{{ $user->foto ? asset('storage/' . $user->foto) : asset('storage/users/default.png') }}" alt="Foto de Perfil" class="" style="object-fit: cover; width: 100%; height: 100%;">
+                                                    <img src="{{ $user->foto ? asset('storage/' . $user->foto) : '/images/default.png' }}" alt="Foto de Perfil" class="" style="object-fit: cover; width: 100%; height: 100%;">
                                                 </div>
                                             </div>
                                             <div class="col-7">
