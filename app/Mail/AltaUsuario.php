@@ -30,7 +30,7 @@ class AltaUsuario extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('administracion@sumasalud.com', 'Suma Salud'),
+            from: new Address('centromedico@sumasalud.online', 'Suma Salud'),
             subject: $this->asunto,
         );
     }
