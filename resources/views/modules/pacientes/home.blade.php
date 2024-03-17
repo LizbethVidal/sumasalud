@@ -107,6 +107,30 @@
                 </div>
             </div>
         </div>
+        <div class="col-12 col-md-6 d-flex justify-content-start mt-3">
+            {{-- promo card img --}}
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Promoción dental</h5>
+                </div>
+                <img src="/images/promo.png" alt="Promoción" class="card-img-top" style="max-height: 300px; max-width: 50rem;">
+            </div>
+        </div>
+        {{-- mapa donde estamos --}}
+        <div class="col-12 col-md-6 d-flex justify-content-center mt-3">
+            <div class="card" style="">
+                <div class="card-header">
+                    <h5 class="card-title">Donde estamos</h5>
+                </div>
+                <div class="card-body">
+                    @if(!$agent->isMobile())
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2487.8633677478338!2d-15.434504579602292!3d28.135218921985683!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xc409515abc24011%3A0x96f3c1962fadbe90!2sC.%20Tom%C3%A1s%20Miller%2C%201%2C%2035007%20Las%20Palmas%20de%20Gran%20Canaria%2C%20Las%20Palmas!5e0!3m2!1ses!2ses!4v1710679809480!5m2!1ses!2ses" width="600" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    @else
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2487.8633677478338!2d-15.434504579602292!3d28.135218921985683!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xc409515abc24011%3A0x96f3c1962fadbe90!2sC.%20Tom%C3%A1s%20Miller%2C%201%2C%2035007%20Las%20Palmas%20de%20Gran%20Canaria%2C%20Las%20Palmas!5e0!3m2!1ses!2ses!4v1710679809480!5m2!1ses!2ses" width="300" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -132,5 +156,6 @@
             });
         });
     });
+
 </script>
 @endsection
