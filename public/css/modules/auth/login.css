@@ -54,7 +54,7 @@ form {
 
 .input-group {
     display: flex;
-    /* flex-direction: column; */
+    flex-direction: column;
     gap: 7px;
 }
 
@@ -116,10 +116,6 @@ form {
 @media (max-width: 933px) {
     .login-container {
         margin-left: 0;
-    }
-
-    .full-screen {
-        justify-content: center;
     }
 
     .input-group input {
