@@ -113,7 +113,7 @@ form {
 }
 
 
-@media (max-width: 933px) {
+@media (max-width: 768px) {
     .login-container {
         margin-left: 0;
     }
