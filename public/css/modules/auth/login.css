@@ -22,18 +22,19 @@ body {
     background-size: cover;
     background-position: center;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
 }
 
 .login-container {
     --color: hsl(var(--secondary-color), .6); /*shadow around login box*/
-    background-color: #6A9FB0; /*Color of login box*/
+    background-color: #546f96; /*Color of login box*/
     box-shadow: 0 0 15px 0 var(--primary-color);
     padding: 40px 30px;
     width: 80%;
     max-width: 600px;
     border-radius: 20px;
+    margin-left: 20rem;
 }
 
 .login-title { /*Title Text Welcome, Chef!*/
@@ -109,4 +110,15 @@ form {
 
 #msg {
     display: none;
+}
+
+
+@media (max-width: 900px) {
+    .login-container {
+        margin-left: 0;
+    }
+
+    .full-screen {
+        justify-content: center;
+    }
 }
