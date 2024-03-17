@@ -124,5 +124,6 @@ form {
 
     .input-group {
         flex-direction: column;
+        max-width: 300px;
     }
 }
