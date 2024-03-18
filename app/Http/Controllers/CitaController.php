@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -146,7 +147,7 @@ class CitaController extends Controller
             return redirect()->route('citas.index');
         } catch (\Exception $e) {
             DB::rollBack();
-
+            Log::error($e->getMessage());
             Alert::error('Error', 'No se ha podido crear la cita');
             return redirect()->back();
         }
