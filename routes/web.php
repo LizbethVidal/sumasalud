@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
-
+Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('logs')->middleware(['auth','permisos:admin']);
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware(['auth']);
 Route::group(['middleware' => ['auth']], function () {
     Route::post('users/search_tutor', [App\Http\Controllers\UserController::class, 'search_tutor'])->name('users.search_tutor');
