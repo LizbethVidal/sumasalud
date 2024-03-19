@@ -139,7 +139,7 @@ class MedicosController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('pacientes.index')->with('success','Paciente eliminado correctamente');
+        return redirect()->route('empleados.index')->with('success','Médico eliminado correctamente');
     }
 
     public function calendario($user_id)

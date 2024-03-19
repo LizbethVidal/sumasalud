@@ -63,7 +63,6 @@
                                 <option value="">Seleccione un rol</option>
                                 <option value="admin">Administrador</option>
                                 <option value="medico">Médico</option>
-                                <option value="paciente">Paciente</option>
                             </select>
                             @if($errors->has('rol'))
                                 <span class="invalid-feedback" role="alert">

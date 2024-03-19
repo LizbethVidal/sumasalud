@@ -132,6 +132,9 @@ class PacientesController extends Controller
             $user->save();
 
             if($request->medico_id != null){
+                if($user->doctor_principal() != null){
+                    $user->doctores()->detach($user->doctor_principal()->id);
+                }
                 $user->doctores()->attach($request->medico_id, ['doctor_principal' => 1]);
             }
 

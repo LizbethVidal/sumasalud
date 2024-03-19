@@ -38,7 +38,7 @@ class UserController extends Controller
         }
 
         if($request->email != ''){
-            $users = $users->where('email',$request->email);  //duda: ¿debería ir like?
+            $users = $users->where('email', 'like', "%$request->email%");
         }
 
 

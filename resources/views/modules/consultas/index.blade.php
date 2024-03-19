@@ -10,12 +10,25 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="{{route('especialidades.index')}}" method="GET">
+                        <form action="{{route('consultas.index')}}" method="GET">
                             @csrf
                             <div class="row mb-2">
                                 <div class="col">
-                                    <label for="nombre">Nombre</label>
-                                    <input type="text" class="form-control" id="nombre" name="nombre" value="{{$request->nombre}}">
+                                    <label for="fecha">Fecha: </label>
+                                    <input type="date" name="fecha" class="form-control" value="{{$request->fecha}}">
+                                </div>
+                                <div class="col">
+                                    <label for="paciente">Paciente: </label>
+                                    <input type="text" name="paciente" class="form-control" placeholder="Paciente" value="{{$request->paciente}}">
+                                </div>
+                                <div class="col">
+                                    <label for="tratamiento">Tratamiento: </label>
+                                    <select name="tratamiento" class="form-select">
+                                        <option value="">Seleccionar tratamiento</option>
+                                        @foreach($tratamientos as $tratamiento)
+                                            <option value="{{$tratamiento->id}}" {{$tratamiento->id == $request->tratamiento ? 'selected' : ''}}>{{$tratamiento->nombre}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col d-flex flex-column justify-content-end">
                                     <div>

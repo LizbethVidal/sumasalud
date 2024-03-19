@@ -80,15 +80,11 @@
                                     </span>
                                 @endif
                             </div>
-                            @if($user->rol == 'paciente')
                             <div class="col-md-3">
                                 <label for="tutor">Tutor</label>
                                 <input readonly="true" type="text" name="tutor" id="tutor" class="form-control" placeholder="Tutor" value="{{$user->tutor?->name}}">
                                 <input type="hidden" name="tutor_id" id="tutor_id" value="{{$user->tutor_id}}">
                             </div>
-                            @elseif ($user->rol == 'medico')
-                                {{-- Especialidad seleccionar, como quieras  --}}
-                            @endif
                             <div class="col-md-9">
                                 <label for="direccion">Dirección</label>
                                 <input type="text" name="direccion" id="direccion" class="form-control @if($errors->has('direccion')) is-invalid @endif" placeholder="Dirección" value="{{$user->direccion}}">
@@ -216,33 +212,33 @@
         }
 
         function add_alergia() {
-        let count = $('#alergias').children().length;
+            let count = $('#alergias').children().length;
 
-        if(count == 0) {
-            $('#alergias_list').removeClass('d-none');
+            if(count == 0) {
+                $('#alergias_list').removeClass('d-none');
+            }
+
+            var html = '';
+            html += `<div class="col-3 mt-2" id="alergia_${count}">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="alergias[]" placeholder="Alergia">
+                            <button class="btn btn-outline-danger" type="button" onclick="remove_alergia(${count})">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        </div>
+                    </div>`;
+            $('#alergias').append(html);
         }
 
-        var html = '';
-        html += `<div class="col-3 mt-2" id="alergia_${count}">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="alergias[]" placeholder="Alergia">
-                        <button class="btn btn-outline-danger" type="button" onclick="remove_alergia(${count})">
-                            <i class="bi bi-x"></i>
-                        </button>
-                    </div>
-                </div>`;
-        $('#alergias').append(html);
-    }
+        function remove_alergia(count) {
+            $(`#alergia_${count}`).remove();
 
-    function remove_alergia(count) {
-        $(`#alergia_${count}`).remove();
+            let children = $('#alergias').children().length;
 
-        let children = $('#alergias').children().length;
-
-        if(children == 0) {
-            $('#alergias_list').addClass('d-none');
+            if(children == 0) {
+                $('#alergias_list').addClass('d-none');
+            }
         }
-    }
     </script>
 
     <script type="module">

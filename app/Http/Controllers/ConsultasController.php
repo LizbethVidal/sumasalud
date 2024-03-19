@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cita;
 use App\Models\Consulta;
 use App\Models\Consultas;
+use App\Models\Tratamiento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -22,9 +23,25 @@ class ConsultasController extends Controller
             $consultas = $consultas->where('doctor_id',Auth()->user()->id);
         }
 
+        if($request->fecha != ""){
+            $consultas = $consultas->whereHas('cita', function($query) use ($request){
+                $query->where('fecha_hora', 'like', "%{$request->fecha}%");
+            });
+        }
+        if($request->paciente != ""){
+            $consultas = $consultas->whereHas("paciente", function($query) use ($request){
+                $query->where('name', 'like', "%{$request->paciente}%");
+            });
+        }
+        if($request->tratamiento != ""){
+            $consultas = $consultas->where("tratamiento_id", $request->tratamiento);
+        }
+
         $consultas = $consultas->paginate(10);
 
-        return view('modules.consultas.index', compact('consultas', 'request'));
+        $tratamientos = Tratamiento::all();
+
+        return view('modules.consultas.index', compact('consultas', 'request', 'tratamientos'));
     }
 
     /**
